@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.2",
-  "serialNumber": "urn:uuid:ff07ac81-4148-4560-9cd6-c32c280b9289",
+  "serialNumber": "urn:uuid:7c48632f-4ef3-478d-8dda-6b9b83d49c64",
   "version": 1,
   "metadata": {
-    "timestamp": "2021-06-01T17:01:00-06:00",
+    "timestamp": "2021-06-01T17:03:57-06:00",
     "tools": [
       {
         "vendor": "CycloneDX",
@@ -31,11 +31,11 @@
       }
     ],
     "component": {
-      "bom-ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210601164626-e356d12cd9e1",
+      "bom-ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210601170017-39978d2644de",
       "type": "application",
       "name": "github.com/devops-kung-fu/lucha",
-      "version": "v0.0.0-20210601164626-e356d12cd9e1",
-      "purl": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210601164626-e356d12cd9e1",
+      "version": "v0.0.0-20210601170017-39978d2644de",
+      "purl": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210601170017-39978d2644de",
       "externalReferences": [
         {
           "url": "https://github.com/devops-kung-fu/lucha",
@@ -2790,14 +2790,6 @@
           "content": "1067cd0c4c7a32a1f3f01dee355e900226f5511d8b9bdeec1e2de8700e84489e"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0",
-            "url": "https://spdx.org/licenses/Apache-2.0.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/oklog/ulid@v1.3.1",
       "externalReferences": [
         {
@@ -5355,7 +5347,7 @@
       "ref": "pkg:golang/rsc.io/binaryregexp@v0.2.0"
     },
     {
-      "ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210601164626-e356d12cd9e1",
+      "ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210601170017-39978d2644de",
       "dependsOn": [
         "pkg:golang/github.com/gookit/color@v1.4.2",
         "pkg:golang/github.com/spf13/afero@v1.6.0",
