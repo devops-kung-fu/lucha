@@ -1,0 +1,9 @@
+version: 0.0.1
+lucha:
+  rules:
+    - description: "Line contains the word cmd"
+      regex: "\\bcmd"
+      severity: -1
+    - description: "Line contains the word lib"
+      regex: "\\blib"
+      severity: 5

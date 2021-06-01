@@ -1,0 +1,43 @@
+  version: 2.2.0
+  hooks:
+    - type: pre-commit
+      actions:
+        - name: "git: Pull (Ensure there are no upstream changes that are not local)"
+          exec: git
+          args: ["pull"]
+        - name: "go: Tidy (Recursive)"
+          script: "
+            #!/bin/bash \n
+            echo -e Tidying all found go.mod occurrences\n
+            find . -name go.mod -print0 | xargs -0 -n1 dirname |  xargs -L 1 bash -c 'cd \"$0\" && pwd && go mod tidy' \n
+            "
+        - name: "go: Update all dependencies to latest"
+          exec: go
+          args: ["get", "-u", "./..."]
+        - name: "gofmt: Run gofmt to format the code"
+          exec: gofmt
+          args: ["-s", "-w", "**/*.go"]
+        - name: "golint: Lint all go files"
+          exec: golint
+          args: ["./..."] #to error out, add the arg "-set_exit_status"
+        - name: "errcheck: Check that errors are checked"
+          exec: errcheck
+          args: ["-ignoretests", "./..."]
+        - name: "gocyclo: Check cyclomatic complexities"
+          exec: gocyclo
+          args: ["-over", "10", "."]
+        - name: "go: Build (Ensure pulled modules do not break the build)"
+          exec: go
+          args: ["build", "-v"]
+        - name: "go: Run all tests"
+          exec: go
+          args: ["test", "-v", "-coverprofile=coverage.out", "./..."]
+        - name: "go: Test coverage"
+          exec: go
+          args: ["tool", "cover", "-func=coverage.out"]
+        - name: "cyclone-dx: Generate a Software Bill of Materials (SBoM)"
+          exec: cyclonedx-gomod
+          args: ["-json", "-output", "lucha-sbom.json", "-std", "-licenses"]
+        - name: "git: Add all changed files during the pre-commit stage"
+          exec: git
+          args: ["add", "."]
