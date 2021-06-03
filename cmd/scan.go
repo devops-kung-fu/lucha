@@ -11,6 +11,7 @@ import (
 
 var (
 	recursive bool
+	nofail    bool
 	scanCmd   = &cobra.Command{
 		Use: "scan [path]",
 
@@ -18,11 +19,12 @@ var (
 		Long:  "Scans all files in the recursively and scans them for sensitive data.",
 		Run: func(cmd *cobra.Command, args []string) {
 			path := args[0]
-			_, err := lib.NewOsFs().LoadRules(version)
+			fs := lib.NewOsFs()
+			_, err := fs.LoadRules(version)
 			fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
 			lib.IfErrorLog(err, "[ERROR]")
 			fmt.Printf("Scanning files in %s\n\n", path)
-			files, issuesDetected, err := lib.FindIssues(path, recursive)
+			files, issuesDetected, err := fs.FindIssues(path, recursive)
 			lib.IfErrorLog(err, "[ERROR]")
 			if issuesDetected {
 				color.Style{color.FgRed.Darken()}.Println("ISSUES DETECTED!")
@@ -37,6 +39,9 @@ var (
 						}
 					}
 				}
+				if nofail {
+					os.Exit(0)
+				}
 				os.Exit(1)
 			} else {
 				color.Style{color.FgLightGreen}.Println("No Issues Detected")
@@ -49,6 +54,7 @@ var (
 func init() {
 	rootCmd.AddCommand(scanCmd)
 	scanCmd.PersistentFlags().BoolVarP(&recursive, "recursive", "r", false, "If true, lucha will recurse subdirectories")
+	scanCmd.PersistentFlags().BoolVar(&nofail, "no-fail", false, "Always exit with a non-zero exit code (success)")
 }
 
 func printSeverityIndicator(severity int) {
