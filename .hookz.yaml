@@ -38,6 +38,9 @@
         - name: "cyclone-dx: Generate a Software Bill of Materials (SBoM)"
           exec: cyclonedx-gomod
           args: ["-json", "-output", "lucha-sbom.json", "-std", "-licenses"]
+        - name: "lucha: scan source code for sensitive data"
+          exec: lucha
+          args: ["scan", "--recursive", "--no-fail", "."]
         - name: "git: Add all changed files during the pre-commit stage"
           exec: git
           args: ["add", "."]
