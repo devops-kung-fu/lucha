@@ -36,12 +36,11 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
 }
 
 func init() {
 	color.Style{color.FgWhite, color.OpBold}.Println("lucha")
-	fmt.Println("https://github.com/devops-kung-fu/luchaz")
+	fmt.Println("https://github.com/devops-kung-fu/lucha")
 	fmt.Printf("Version: %s\n", version)
 	fmt.Println("")
 

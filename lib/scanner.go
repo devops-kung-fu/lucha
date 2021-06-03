@@ -74,7 +74,7 @@ func ScanFiles(path string) (files []ScanFile, err error) {
 		return nil, err
 	}
 	for _, f := range tempFiles {
-		if !f.IsDir() {
+		if !f.IsDir() && !Contains(IgnoreFiles, f.Name()) {
 			files = append(files, ScanFile{
 				Path: path,
 				Info: f,
@@ -90,7 +90,7 @@ func ScanFilesRecursive(path string) (files []ScanFile, err error) {
 			if err != nil {
 				return err
 			}
-			if !info.IsDir() {
+			if !info.IsDir() && !Contains(IgnoreFiles, info.Name()) {
 				files = append(files, ScanFile{
 					Path: path,
 					Info: info,

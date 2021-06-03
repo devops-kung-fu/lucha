@@ -15,4 +15,5 @@
 # vendor/
 
 lucha
+test.txt
 coverage.out

@@ -10,9 +10,8 @@ func Evaluate(line string, lineNumber int) (issues []Issue) {
 		match := compiledRegex.Match([]byte(line))
 		if match {
 			issue = Issue{
-				LineNumber:  lineNumber,
-				Description: r.Description,
-				Severity:    3,
+				LineNumber: lineNumber,
+				Rule:       r,
 			}
 			issues = append(issues, issue)
 		}

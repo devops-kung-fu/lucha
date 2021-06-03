@@ -1,12 +1,38 @@
 version: 0.0.1
 lucha:
   rules:
-    - description: "Line may contain a password"
+    - code: DFKM001
+      name: "Identify potential passwords"
+      description: "Matches if the word `password` (case insensitive) exists in the code"
+      message: "Line may contain a password"
+      attribution: "DKFM" # Can be omitted
       regex: "(?i)\\bpassword\\b"
-      severity: 0 # Informational
-    - description: "Line contains the word cmd"
-      regex: "\\bcmd"
-      severity: 0 # Informational
-    - description: "Line contains the word lib"
-      regex: "\\blib"
-      severity: 4 # Critical
+      severity: 0 # Informational, Can be omitted as the default is 0
+    - code: DFKM002
+      name: "Github"
+      description: "Searches for github personal access tokens inside the code"
+      message: "Line contains a github token"
+      attribution: "https://github.com/l4yton/RegHex"
+      regex: "(?i)github(.{0,20})?(?-i)['\\\"][0-9a-zA-Z]{35,40}"
+      severity: 4
+    - code: DFKM003
+      name: "AWS"
+      description: "Searches for AWS client identifiers inside the code"
+      message: "Line contains an AWS client identifier"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "AKIA[0-9A-Z]{16}"
+      severity: 4
+    - code: DFKM004
+      name: "AWS"
+      description: "Searches for hardcoded AWS access keys inside the code"
+      message: "Line may contain an AWS access key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "[0-9a-zA-Z/+]{40}"
+      severity: 4
+    - code: DFKM005
+      name: "Mailgun"
+      description: "Searches for a Mailgun API key inside the code"
+      message: "Line contains a Mailgun API key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "key-[0-9a-zA-Z]{32}"
+      severity: 3
