@@ -2,7 +2,7 @@ version: 0.0.1
 lucha:
   rules:
     - code: DFKM001
-      name: "Identify potential passwords"
+      name: "Passwords"
       description: "Matches if the word `password` (case insensitive) exists in the code"
       message: "Line may contain a password"
       attribution: "DKFM" # Can be omitted
