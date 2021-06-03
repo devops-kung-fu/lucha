@@ -10,13 +10,20 @@ var (
 	IgnoreFiles []string
 )
 
-func (f FileSystem) FindIssues(path string, recurse bool, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
-	var files []ScanFile
+func buildFileList(path string, recurse bool) (files []ScanFile, err error) {
 	if recurse {
 		files, err = ScanFilesRecursive(path)
 	} else {
 		files, err = ScanFiles(path)
 	}
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (f FileSystem) FindIssues(path string, recurse bool, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
+	files, err := buildFileList(path, recurse)
 	if err != nil {
 		return nil, false, err
 	}
@@ -38,7 +45,10 @@ func (f FileSystem) FindIssues(path string, recurse bool, maxSeverity int) (viol
 			for scanner.Scan() {
 				line := scanner.Text()
 				lineNumber++
-				issues := Evaluate(line, lineNumber, maxSeverity)
+				issues, err := Evaluate(line, lineNumber, maxSeverity)
+				if err != nil {
+					return nil, false, err
+				}
 
 				if len(issues) > 0 {
 					fl.Issues = append(fl.Issues, issues...)
