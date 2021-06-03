@@ -9,9 +9,9 @@ A CLI that scans for sensitive data in source code
 
 ## Overview
 
-If you are scanning for secrets with a GitHub Action on a Pull Request, then you're way too late. Your secrets are already in your repository and have polluted your history. Rather than commit secrets in the first place, we developed ```lucha``` to root them out, and when combined with [Hookz](https://github.com/devops-kung-fu/hookz) commits can fail before they are pushed to your remote repository. The best part? This works with any ```git``` based remote as everything happens locally on your machine.
+If you are scanning for secrets with a GitHub Action on a Pull Request then you're way too late. Your secrets are already in your repository and have polluted your history. Rather than commit secrets in the first place, we developed ```lucha``` to root them out - and when combined with [Hookz](https://github.com/devops-kung-fu/hookz), commits can fail before they are pushed to your remote repository. The best part? This works with any ```git``` based remote as everything happens locally on your machine.
 
-Talk about shifting left right?
+Talk about shifting left, right?
 
 ## Secret Detection
 
