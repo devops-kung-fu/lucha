@@ -1,0 +1,129 @@
+version: 0.0.1
+lucha:
+  rules:
+    - code: DFKM001
+      name: "Passwords"
+      description: "Matches if the word `password` (case insensitive) exists in the code"
+      message: "Line may contain a password"
+      attribution: "DKFM" # Can be omitted
+      regex: "(?i)\\bpassword\\b"
+      severity: 0 # Informational, Can be omitted as the default is 0
+    - code: DFKM002
+      name: "Github"
+      description: "Searches for github personal access tokens inside the code"
+      message: "Line contains a github token"
+      attribution: "https://github.com/l4yton/RegHex"
+      regex: "(?i)github(.{0,20})?(?-i)['\\\"][0-9a-zA-Z]{35,40}"
+      severity: 4
+    - code: DFKM003
+      name: "AWS"
+      description: "Searches for AWS client identifiers inside the code"
+      message: "Line contains an AWS client identifier"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "AKIA[0-9A-Z]{16}"
+      severity: 4
+    - code: DFKM004
+      name: "AWS"
+      description: "Searches for hardcoded AWS access keys inside the code"
+      message: "Line may contain an AWS access key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "[0-9a-zA-Z/+]{40}"
+      severity: 4
+    - code: DFKM005
+      name: "Mailgun"
+      description: "Searches for a Mailgun API key inside the code"
+      message: "Line contains a Mailgun API key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "key-[0-9a-zA-Z]{32}"
+      severity: 3
+    - code: DKFM007
+      name: "Twitter"
+      description: "Searches for a Twitter access token inside the code"
+      message: "Line may contain a Twitter access token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "[1-9][ 0-9]+-[0-9a-zA-Z]{40}"
+      severity: 2
+    - code: DKFM008
+      name: "Facebook"
+      description: "Searches for a Facebook access token inside the code"
+      message: "Line contains a Facebook access token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "EAACEdEose0cBA[0-9A-Za-z]+"
+      severity: 2
+    - code: DKFM009
+      name: "Google API Key"
+      description: "Searches for a Google API Key inside the code"
+      message: "Line contains a Google API key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "AIza[0-9A-Za-z-_]{35}"
+      severity: 2
+    - code: DKFM010
+      name: "Stripe API Key"
+      description: "Searches for a Stripe Standard or Restricted API Key inside the code"
+      message: "Line contains a Stripe Standard or Restricted API Key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "sk_live_[0-9a-zA-Z]{24}"
+      severity: 4
+    - code: DKFM011
+      name: "Square Access Token"
+      description: "Searches for a Square access token inside the code"
+      message: "Line contains a Square access token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "sqOatp-[0-9A-Za-z-_]{22}"
+      severity: 4
+    - code: DKFM012
+      name: "Square OAuth Secret"
+      description: "Searches for a Square OAuth Secret inside the code"
+      message: "Line contains a Square OAuth Secret"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "q0csp-[ 0-9A-Za-z-_]{43}"
+      severity: 4
+    - code: DKFM013
+      name: "PayPal/Braintree Access Token"
+      description: "Searches for a PayPal/Braintree access token inside the code"
+      message: "Line contains a PayPal/Braintree access token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "access_token,production$[0-9a-z]{161[0-9a,]{32}"
+      severity: 4
+    - code: DKFM014
+      name: "AMS"
+      description: "Searches for an AMS auth token inside the code"
+      message: "Line contains a AMS auth token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "amzn.mws.[0-9a-f]{8}-[0-9a-f]{4}-10-9a-f1{4}-[0-9a,]{4}-[0-9a-f]{12}"
+      severity: 4
+    - code: DKFM015
+      name: "MailChimp"
+      description: "Searches for a MailChimp API Key inside the code"
+      message: "Line contains a MailChimp API key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "0-9a-f]{32}-us[0-9]{1,2}"
+      severity: 3
+    - code: DKFM016
+      name: "Slack API Key"
+      description: "Searches for a Slack API Key inside the code"
+      message: "Line contains a Slack API key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "xox[baprs]-[0-9]{12}-[0-9]{12}-[0-9a-zA-Z]{24}"
+      severity: 3
+    - code: DKFM017
+      name: "Slack Access Tokens"
+      description: "Searches for a Slack access token inside the code"
+      message: "Line contains a Slack access token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}"
+      severity: 3
+    - code: DKFM018
+      name: "GCP OAuth2.0"
+      description: "Searches for a GCP OAuth2.0 token inside the code"
+      message: "Line contains a GCP OAuth2.0 token"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+      severity: 4
+    - code: DKFM019
+      name: "GCP API Key"
+      description: "Searches for a GCP API Key inside the code"
+      message: "Line contains a GCP API Key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "[A-Za-z0-9_]{21}--[A-Za-z0-9_]{8}"
+      severity: 4
