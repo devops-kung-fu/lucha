@@ -17,6 +17,9 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			fs := lib.NewOsFs()
 			_, err := fs.LoadRules(version, RulesFile)
+			if err != nil {
+				RulesFileNotFound()
+			}
 			luchaRulesFile, _ := fs.LuchaRulesFile(RulesFile)
 			fmt.Printf("Loading %v rules from %s", len(lib.Rules), luchaRulesFile)
 			fmt.Println()

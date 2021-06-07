@@ -11,7 +11,6 @@ import (
 
 var (
 	recursive   bool
-	nofail      bool
 	maxSeverity int
 	scanCmd     = &cobra.Command{
 		Use: "scan [path]",
@@ -22,6 +21,9 @@ var (
 			path := args[0]
 			fs := lib.NewOsFs()
 			_, err := fs.LoadRules(version, RulesFile)
+			if err != nil {
+				RulesFileNotFound()
+			}
 			fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
 			lib.IfErrorLog(err, "[ERROR]")
 			fmt.Printf("Scanning files in %s\n\n", path)
@@ -40,7 +42,7 @@ var (
 						}
 					}
 				}
-				if nofail {
+				if NoFail {
 					os.Exit(0)
 				}
 				os.Exit(1)
@@ -55,7 +57,6 @@ var (
 func init() {
 	rootCmd.AddCommand(scanCmd)
 	scanCmd.PersistentFlags().BoolVarP(&recursive, "recursive", "r", false, "If true, lucha will recurse subdirectories")
-	scanCmd.PersistentFlags().BoolVar(&nofail, "no-fail", false, "Always exit with a non-zero exit code (success)")
 	scanCmd.PersistentFlags().IntVar(&maxSeverity, "max-severity", 0, "Only report on severities higher than this value")
 }
 
