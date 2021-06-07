@@ -21,7 +21,7 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			path := args[0]
 			fs := lib.NewOsFs()
-			_, err := fs.LoadRules(version)
+			_, err := fs.LoadRules(version, RulesFile)
 			fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
 			lib.IfErrorLog(err, "[ERROR]")
 			fmt.Printf("Scanning files in %s\n\n", path)

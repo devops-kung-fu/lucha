@@ -78,12 +78,40 @@ func (f FileSystem) LoadIgnore() (err error) {
 	return
 }
 
-func (f FileSystem) LoadRules(version string) (config Configuration, err error) {
+func (f FileSystem) RulesFile(file string) (filename string, err error) {
+	luchaDir, _ := LuchaDir()
+	defaultLuchaFile, _ := filepath.Abs(fmt.Sprintf("%s/lucha.yaml", luchaDir))
+	exists, err := f.Afero().Exists(defaultLuchaFile)
+	if exists && file == "" {
+		return defaultLuchaFile, nil
+	}
+	if file != "" {
+		luchaFile, _ := filepath.Abs(file)
+		return luchaFile, nil
+	}
+	return
+}
+
+func (f FileSystem) LuchaRulesFile(file string) (luchaFile string, err error) {
+	if filepath.IsAbs(file) {
+		luchaFile = file
+		return
+	} else {
+		luchaFile, err = filepath.Abs(file)
+		return
+	}
+}
+
+func (f FileSystem) LoadRules(version string, file string) (config Configuration, err error) {
+	filename, err := f.LuchaRulesFile(file)
+	if err != nil {
+		return
+	}
 	err = f.LoadIgnore()
 	if err != nil {
 		return
 	}
-	filename, _ := filepath.Abs("lucha.yaml")
+
 	yamlFile, err := f.Afero().ReadFile(filename)
 
 	if err != nil {
