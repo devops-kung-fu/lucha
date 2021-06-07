@@ -21,9 +21,9 @@ func Contains(s []string, str string) bool {
 	return false
 }
 
-func StartsWith(s []string, prefix string) bool {
-	for _, v := range s {
-		if strings.HasPrefix(v, prefix) {
+func StartsWith(s []string, searchString string) bool {
+	for _, prefix := range s {
+		if strings.HasPrefix(searchString, prefix) {
 			return true
 		}
 	}

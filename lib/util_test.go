@@ -44,10 +44,10 @@ func TestLuchaDir(t *testing.T) {
 
 func TestStartsWith(t *testing.T) {
 	testArray := []string{
-		"testing",
+		"foo",
 		"test",
 	}
-	startsWith := StartsWith(testArray, "te")
+	startsWith := StartsWith(testArray, "foobar")
 	assert.True(t, startsWith, "The test array should contain an element that starts with `te`")
 
 	startsWith = StartsWith(testArray, "ge")
