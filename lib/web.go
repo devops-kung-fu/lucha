@@ -12,7 +12,7 @@ import (
 //DownloadURL downloads content from the provided URL and returns the
 //filename after saving the content to the .git/hooks folder. Returns an
 //error if there were any problems.
-func (f FileSystem) DownloadURL(URL string, outputPath string) (filename string, err error) {
+func DownloadURL(URL string, outputPath string) (filename string, err error) {
 	_, err = url.ParseRequestURI(URL)
 	if err != nil {
 		return

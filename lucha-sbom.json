@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.2",
-  "serialNumber": "urn:uuid:4c99099f-24d7-443c-8eb2-d03972bc3d81",
+  "serialNumber": "urn:uuid:5d18e595-ef1f-4f6b-852b-b89ec6718d73",
   "version": 1,
   "metadata": {
-    "timestamp": "2021-06-07T11:10:31-06:00",
+    "timestamp": "2021-06-07T12:18:04-06:00",
     "tools": [
       {
         "vendor": "CycloneDX",
@@ -31,11 +31,11 @@
       }
     ],
     "component": {
-      "bom-ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210607110348-ec33141b88c4",
+      "bom-ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210607111000-b10d3a3e0dd8",
       "type": "application",
       "name": "github.com/devops-kung-fu/lucha",
-      "version": "v0.0.0-20210607110348-ec33141b88c4",
-      "purl": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210607110348-ec33141b88c4",
+      "version": "v0.0.0-20210607111000-b10d3a3e0dd8",
+      "purl": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210607111000-b10d3a3e0dd8",
       "externalReferences": [
         {
           "url": "https://github.com/devops-kung-fu/lucha",
@@ -636,14 +636,6 @@
           "content": "c19c221c75227990aab8b9032f407c521ceb78d5ac3c7a280c01b7ab7e33934b"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/coreos/bbolt@v1.3.2",
       "externalReferences": [
         {
@@ -934,20 +926,6 @@
         {
           "alg": "SHA-256",
           "content": "c101ca11a8612fac265ddcf0586d7580854290ebf4e5b34e87e4719f4ca78009"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause",
-            "url": "https://spdx.org/licenses/BSD-3-Clause.html"
-          }
-        },
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/ghodss/yaml@v1.0.0",
@@ -1306,14 +1284,6 @@
           "content": "267c7ad656ad79d7bbcc30f70e288fe2098dcf7dee2b45391c351a1746bf1d54"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0",
-            "url": "https://spdx.org/licenses/Apache-2.0.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/google/pprof@v0.0.0-20190515194954-54271f7e092f",
       "externalReferences": [
         {
@@ -1360,14 +1330,6 @@
         {
           "alg": "SHA-256",
           "content": "b23641c068fd265c37dc898fb6f16f88662fb1e3ad0ccee1912281efe4efdd23"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause",
-            "url": "https://spdx.org/licenses/BSD-3-Clause.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/googleapis/gax-go/v2@v2.0.5",
@@ -1446,14 +1408,6 @@
           "content": "fbf4cc69361ce10162b4a271b10ed8c9edf90e45af91d2dcbc62aa33ec7451f7"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-2-Clause",
-            "url": "https://spdx.org/licenses/BSD-2-Clause.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/gorilla/websocket@v1.4.2",
       "externalReferences": [
         {
@@ -1500,14 +1454,6 @@
         {
           "alg": "SHA-256",
           "content": "3afb36eb11e42aa573b51a48ac5ffdd8172ecae43f616e0d488a681ad7d7361a"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0",
-            "url": "https://spdx.org/licenses/Apache-2.0.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/grpc-ecosystem/go-grpc-prometheus@v1.2.0",
@@ -1614,14 +1560,6 @@
           "content": "84baeab440e74727b7fac831eb3e2a54b36ebe21f7311e5a434ca43496bf5180"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MPL-2.0",
-            "url": "https://spdx.org/licenses/MPL-2.0.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/hashicorp/errwrap@v1.0.0",
       "externalReferences": [
         {
@@ -1670,14 +1608,6 @@
           "content": "00a0c1d473393d6100ee2e2785ca703ab3b66f2b21c418d7567fc9ff7fb3e7fd"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MPL-2.0",
-            "url": "https://spdx.org/licenses/MPL-2.0.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/hashicorp/go-immutable-radix@v1.0.0",
       "externalReferences": [
         {
@@ -1724,14 +1654,6 @@
         {
           "alg": "SHA-256",
           "content": "8958cf47b6ba1f4b5610b5f937135eedb628a626e2714cdceee3eb89bb274baa"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MPL-2.0",
-            "url": "https://spdx.org/licenses/MPL-2.0.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/hashicorp/go-multierror@v1.0.0",
@@ -1808,14 +1730,6 @@
         {
           "alg": "SHA-256",
           "content": "29aa1da99ba152865eade5952189a9520672b2eac1d6404b5f68f433032b5001"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/hashicorp/go-syslog@v1.0.0",
@@ -2062,6 +1976,14 @@
           "content": "67cb6ee6cada2d709721c011c41a7ff1c6ef97055aed9d4d1e0f5710a86d4af3"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://spdx.org/licenses/Apache-2.0.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/inconshreveable/mousetrap@v1.0.0",
       "externalReferences": [
         {
@@ -2080,14 +2002,6 @@
         {
           "alg": "SHA-256",
           "content": "54a57e65cb8fea5df25bd7687aacface264681cca705540efa86d4d3ed2170fa"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0",
-            "url": "https://spdx.org/licenses/Apache-2.0.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/jonboulle/clockwork@v0.1.0",
@@ -2138,14 +2052,6 @@
           "content": "ac130d7658532f32632520c88cd1175f53f3dc79b09b3f75bfecf272fc7d3c97"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/jstemmer/go-junit-report@v0.0.0-20190106144839-af01ea7f8024",
       "externalReferences": [
         {
@@ -2164,6 +2070,14 @@
         {
           "alg": "SHA-256",
           "content": "0d61bff8c2de500d8311984d8f3cce613ec6aa4e2b4ecc63d11948dd914bf59f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+          }
         }
       ],
       "purl": "pkg:golang/github.com/jtolds/gls@v4.20.0",
@@ -2214,14 +2128,6 @@
           "content": "66a7e72b2c7d286a51716d388f99e73c38118285d478b87660505e173a61700d"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/kisielk/errcheck@v1.1.0",
       "externalReferences": [
         {
@@ -2240,6 +2146,14 @@
         {
           "alg": "SHA-256",
           "content": "015d9cfc4896dcaa8f353f592a5d3b7a1a001a2e02e7fd3509f6db96775c6a98"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+          }
         }
       ],
       "purl": "pkg:golang/github.com/kisielk/gotool@v1.0.0",
@@ -2262,14 +2176,6 @@
           "content": "9b078047503ac49de84b6a51686887810e0e3bcb734da2dac26f2f9ce0eec039"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/konsorten/go-windows-terminal-sequences@v1.0.1",
       "externalReferences": [
         {
@@ -2288,6 +2194,14 @@
         {
           "alg": "SHA-256",
           "content": "26c91dbbd89e3406278f1b22d0b6d0a75ba520a655d4b00580ad6d5a1a59825f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause",
+            "url": "https://spdx.org/licenses/BSD-3-Clause.html"
+          }
         }
       ],
       "purl": "pkg:golang/github.com/kr/fs@v0.1.0",
@@ -2358,14 +2272,6 @@
           "content": "564a1723049ba01a6793df4efca15ab801082ee347bf90d514a64c04dfe0520c"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/kr/pty@v1.1.1",
       "externalReferences": [
         {
@@ -2384,6 +2290,14 @@
         {
           "alg": "SHA-256",
           "content": "e39b0247946d9451cc4785301fdb1d4394c2f2fd2a0d00879d7b7e91a2924d51"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+          }
         }
       ],
       "purl": "pkg:golang/github.com/kr/text@v0.1.0",
@@ -2406,14 +2320,6 @@
           "content": "642d9573bfd91641a6b150bd2af3a3ba60fe1b9957cb646d4cacb344a3b6050e"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-2-Clause",
-            "url": "https://spdx.org/licenses/BSD-2-Clause.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/magiconair/properties@v1.8.1",
       "externalReferences": [
         {
@@ -2434,6 +2340,14 @@
           "content": "7358213ddc840daac2ef47ed9f4cbe03f11efbef73cfc9631c6d5bd77789d2cf"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/mattn/go-colorable@v0.1.8",
       "externalReferences": [
         {
@@ -2452,14 +2366,6 @@
         {
           "alg": "SHA-256",
           "content": "a9d97e1ae06372c28a0dca3906cc4f26521df7c99258d2aa600f82a34482d720"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/mattn/go-isatty@v0.0.13",
@@ -2538,6 +2444,14 @@
           "content": "886048b147b7f8767f003fd577b0c4aceb79b14f5f6bc523ec0dacd5a820bf56"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0",
+            "url": "https://spdx.org/licenses/MPL-2.0.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/mitchellh/cli@v1.0.0",
       "externalReferences": [
         {
@@ -2556,14 +2470,6 @@
         {
           "alg": "SHA-256",
           "content": "96e905f738971710c53e4035becaf9ce97355ee3c39ffc059edab9986fb81346"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/mitchellh/go-homedir@v1.1.0",
@@ -2586,6 +2492,14 @@
           "content": "7f353f25535c6aa1d011c54500a791e357e488b7483eb79f3af546d5567de94d"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/mitchellh/go-testing-interface@v1.0.0",
       "externalReferences": [
         {
@@ -2604,14 +2518,6 @@
         {
           "alg": "SHA-256",
           "content": "95f189c58ed3a0b2508c71f08b4117eae60174aefc7a07fde78490975dcf4097"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MPL-2.0",
-            "url": "https://spdx.org/licenses/MPL-2.0.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/mitchellh/gox@v0.4.0",
@@ -2634,6 +2540,14 @@
           "content": "0be5f72ac4932c5541affb4ad5e60dfefb38ac972fb222d4df7f148583c959e6"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/mitchellh/iochan@v1.0.0",
       "externalReferences": [
         {
@@ -2652,14 +2566,6 @@
         {
           "alg": "SHA-256",
           "content": "7e6358570aa749f07d99953a392d8ee86b1733ec1cb24643b8a433bcdd440de1"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/mitchellh/mapstructure@v1.1.2",
@@ -2834,14 +2740,6 @@
           "content": "894454ad11b13d434f772e7f1d14a6f988faa2427a52d2c834dd10f4ce3e8772"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-2-Clause",
-            "url": "https://spdx.org/licenses/BSD-2-Clause.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/pkg/errors@v0.8.1",
       "externalReferences": [
         {
@@ -2890,6 +2788,14 @@
           "content": "e030700c4d0d1b24280476cb4183f04943e808c591e41133224fdfd6565b0103"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause",
+            "url": "https://spdx.org/licenses/BSD-3-Clause.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/pmezard/go-difflib@v1.0.0",
       "externalReferences": [
         {
@@ -2936,14 +2842,6 @@
         {
           "alg": "SHA-256",
           "content": "f621f824a5cbcc56ce01db6abff6be8fc69ec31d98f250230327616da49c3c5f"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0",
-            "url": "https://spdx.org/licenses/Apache-2.0.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/prometheus/client_golang@v0.9.3",
@@ -3154,14 +3052,6 @@
           "content": "505afdce9cf8c604e7204e7220cb5600c9e009d67da7ffaaea54db81e968f343"
         }
       ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
-        }
-      ],
       "purl": "pkg:golang/github.com/ryanuber/columnize@v0.0.0-20160712163229-9b3edd62028f",
       "externalReferences": [
         {
@@ -3214,14 +3104,6 @@
         {
           "alg": "SHA-256",
           "content": "3dd9a808eeb0bdbb3eef2ac9c8c391b78fc1998e486322704bf90e896c7c987a"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT",
-            "url": "https://spdx.org/licenses/MIT.html"
-          }
         }
       ],
       "purl": "pkg:golang/github.com/shurcooL/sanitized_anchor_name@v1.0.0",
@@ -3348,6 +3230,14 @@
           "content": "a8b0bb7d06a1ec3e8ad41d2e8dacacdc757d82416d965731873226451ec0acf4"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause",
+            "url": "https://spdx.org/licenses/BSD-3-Clause.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/spaolacci/murmur3@v0.0.0-20180118202830-f09979ecbc72",
       "externalReferences": [
         {
@@ -3424,6 +3314,14 @@
           "content": "c6085b7ea3e4c73c4fdc2fdfde7e4376901b74a2e3e19138056408dfada5e773"
         }
       ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://spdx.org/licenses/Apache-2.0.html"
+          }
+        }
+      ],
       "purl": "pkg:golang/github.com/spf13/cobra@v1.1.3",
       "externalReferences": [
         {
@@ -3470,6 +3368,14 @@
         {
           "alg": "SHA-256",
           "content": "8b2f951543823f56bef3216da3f76b836089e6ed3246807b7d9c370cabff2570"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause",
+            "url": "https://spdx.org/licenses/BSD-3-Clause.html"
+          }
         }
       ],
       "purl": "pkg:golang/github.com/spf13/pflag@v1.0.5",
@@ -5241,7 +5147,7 @@
       "ref": "pkg:golang/rsc.io/binaryregexp@v0.2.0"
     },
     {
-      "ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210607110348-ec33141b88c4",
+      "ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210607111000-b10d3a3e0dd8",
       "dependsOn": [
         "pkg:golang/github.com/briandowns/spinner@v1.15.0",
         "pkg:golang/github.com/cavaliercoder/grab@v2.0.0",

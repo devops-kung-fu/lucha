@@ -38,7 +38,7 @@ var (
 				color.Style{color.FgRed.Darken()}.Println("ISSUES DETECTED!")
 				fmt.Println()
 				for _, f := range files {
-					if f.IssueCount() > 0 {
+					if len(f.Issues) > 0 {
 						fmt.Println(f.Path)
 						for _, i := range f.Issues {
 							fmt.Print("    ")

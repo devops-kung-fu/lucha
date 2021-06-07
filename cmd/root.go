@@ -11,11 +11,15 @@ import (
 )
 
 var (
-	version   = "0.0.1"
-	verbose   bool
+	version = "0.0.1"
+	verbose bool
+
+	//RulesFile the name and location of the lucha.yaml rules file
 	RulesFile string
-	NoFail    bool
-	rootCmd   = &cobra.Command{
+
+	//NoFail is true if the application should not return a non-zero exit code
+	NoFail  bool
+	rootCmd = &cobra.Command{
 		Use:     "lucha scan",
 		Short:   `"Scans for sensitive data in source code`,
 		Version: version,
@@ -54,6 +58,7 @@ func init() {
 	rootCmd.PersistentFlags().BoolVar(&NoFail, "no-fail", false, "Always exit with a non-zero exit code (success)")
 }
 
+//RulesFileNotFound prints an error message if the lucha.yaml file isn't found and exits
 func RulesFileNotFound() {
 	color.Style{color.FgRed.Darken()}.Println("NO RULES FOUND!")
 	fmt.Println()

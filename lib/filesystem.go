@@ -2,9 +2,7 @@ package lib
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -16,16 +14,19 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+//FileSystem encapsulates the Afero fs Filesystem
 type FileSystem struct {
 	fs afero.Fs
 }
 
+//NewOsFs returns a new local os file system
 func NewOsFs() FileSystem {
 	var d FileSystem
 	d.fs = afero.NewOsFs()
 	return d
 }
 
+//Afero returns the Afero system
 func (f FileSystem) Afero() (afs *afero.Afero) {
 	afs = &afero.Afero{Fs: f.fs}
 	return
@@ -51,6 +52,8 @@ func (f FileSystem) AppendIgnore(filename string) (err error) {
 	}
 	return
 }
+
+//LoadIgnore loads content in from the .luchaignore file
 func (f FileSystem) LoadIgnore() (err error) {
 	filename, _ := filepath.Abs(".luchaignore")
 	exists, _ := f.Afero().Exists(filename)
@@ -81,20 +84,7 @@ func (f FileSystem) LoadIgnore() (err error) {
 	return
 }
 
-// func (f FileSystem) RulesFile(file string) (filename string, err error) {
-// 	luchaDir, _ := LuchaDir()
-// 	defaultLuchaFile, _ := filepath.Abs(fmt.Sprintf("%s/lucha.yaml", luchaDir))
-// 	exists, err := f.Afero().Exists(defaultLuchaFile)
-// 	if exists && file == "" {
-// 		return defaultLuchaFile, nil
-// 	}
-// 	if file != "" {
-// 		luchaFile, _ := filepath.Abs(file)
-// 		return luchaFile, nil
-// 	}
-// 	return
-// }
-
+//LuchaRulesFile when passed a filename returns the absolute path
 func (f FileSystem) LuchaRulesFile(file string) (luchaFile string, err error) {
 	if filepath.IsAbs(file) {
 		luchaFile = file
@@ -105,6 +95,7 @@ func (f FileSystem) LuchaRulesFile(file string) (luchaFile string, err error) {
 	}
 }
 
+//LoadRules loads the lucha.yaml rules file into memory
 func (f FileSystem) LoadRules(version string, file string) (config Configuration, err error) {
 	filename, err := f.LuchaRulesFile(file)
 	if err != nil {
@@ -132,6 +123,7 @@ func (f FileSystem) LoadRules(version string, file string) (config Configuration
 	return
 }
 
+//RefreshRules pulls down the latest rules from https://github.com/devops-kung-fu/lucha
 func (f FileSystem) RefreshRules(version string) (config Configuration, err error) {
 	luchaDir, _ := LuchaDir()
 
@@ -142,13 +134,14 @@ func (f FileSystem) RefreshRules(version string) (config Configuration, err erro
 			return
 		}
 	}
-	_, err = f.DownloadURL("https://raw.githubusercontent.com/devops-kung-fu/lucha/main/lucha.yaml", luchaDir)
+	_, err = DownloadURL("https://raw.githubusercontent.com/devops-kung-fu/lucha/main/lucha.yaml", luchaDir)
 	if err != nil {
 		return
 	}
 	return
 }
 
+//IsTextFile examines a file and returns true if the file is UTF-8
 func (f FileSystem) IsTextFile(file ScanFile) bool {
 	buf, _ := f.Afero().ReadFile(fmt.Sprintf("%s/%s", file.Path, file.Info.Name()))
 	size := 0
@@ -161,6 +154,7 @@ func (f FileSystem) IsTextFile(file ScanFile) bool {
 	return true
 }
 
+//ScanFiles grabs a list of files from the provided directory for scanning
 func ScanFiles(path string) (files []ScanFile, err error) {
 	tempFiles, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -177,6 +171,7 @@ func ScanFiles(path string) (files []ScanFile, err error) {
 	return
 }
 
+//ScanFilesRecursive grabs a list of all files recursively for scanning
 func ScanFilesRecursive(path string) (files []ScanFile, err error) {
 	err = filepath.Walk(".",
 		func(path string, info os.FileInfo, err error) error {
@@ -198,34 +193,4 @@ func ScanFilesRecursive(path string) (files []ScanFile, err error) {
 		log.Println(err)
 	}
 	return
-}
-
-func LineCounter(r io.Reader) (int, error) {
-
-	var count int
-	const lineBreak = '\n'
-
-	buf := make([]byte, bufio.MaxScanTokenSize)
-
-	for {
-		bufferSize, err := r.Read(buf)
-		if err != nil && err != io.EOF {
-			return 0, err
-		}
-
-		var buffPosition int
-		for {
-			i := bytes.IndexByte(buf[buffPosition:], lineBreak)
-			if i == -1 || bufferSize == buffPosition {
-				break
-			}
-			buffPosition += i + 1
-			count++
-		}
-		if err == io.EOF {
-			break
-		}
-	}
-
-	return count, nil
 }

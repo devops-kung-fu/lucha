@@ -35,3 +35,35 @@ func captureStdout(f func()) (captured string, err error) {
 	captured = string(buf[:n])
 	return
 }
+
+func TestLuchaDir(t *testing.T) {
+	path, err := LuchaDir()
+	assert.NoError(t, err, "There should be no error")
+	assert.NotEmpty(t, path, "Path should not be empty")
+}
+
+func TestStartsWith(t *testing.T) {
+	testArray := []string{
+		"testing",
+		"test",
+	}
+	startsWith := StartsWith(testArray, "te")
+	assert.True(t, startsWith, "The test array should contain an element that starts with `te`")
+
+	startsWith = StartsWith(testArray, "ge")
+	assert.False(t, startsWith, "The test array should not contain an element that starts with `ge`")
+
+}
+
+func TestContains(t *testing.T) {
+	testArray := []string{
+		"testing",
+		"foo",
+	}
+	contains := Contains(testArray, "foo")
+	assert.True(t, contains, "The test array should contain an element `foo`")
+
+	contains = Contains(testArray, "ge")
+	assert.False(t, contains, "The test array should not contain an element  `bar`")
+
+}

@@ -6,7 +6,9 @@ import (
 )
 
 var (
-	Rules       []Rule
+	//Rules contains the loaded rules from lucha.yaml
+	Rules []Rule
+	//IgnoreFiles contains the names of files that shouldn't be processed from the .luchaignore file
 	IgnoreFiles []string
 )
 
