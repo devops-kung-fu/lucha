@@ -11,9 +11,9 @@ lucha:
     - code: DFKM002
       name: "Github"
       description: "Searches for github personal access tokens inside the code"
-      message: "Line contains a github token"
-      attribution: "https://github.com/l4yton/RegHex"
-      regex: "(?i)github(.{0,20})?(?-i)['\\\"][0-9a-zA-Z]{35,40}"
+      message: "Line may contain a github  personal access token"
+      attribution: DKFM
+      regex: "^[0-9a-f]{40}$"
       severity: 4
     - code: DFKM003
       name: "AWS"
@@ -127,3 +127,38 @@ lucha:
       attribution: "https://github.com/odomojuli/RegExAPI"
       regex: "[A-Za-z0-9_]{21}--[A-Za-z0-9_]{8}"
       severity: 4
+    - code: DKFM020
+      name: "Heroku API Key"
+      description: "Searches for a Heroku API Key inside the code"
+      message: "Line may contain a Herouku API Key"
+      attribution: "https://github.com/odomojuli/RegExAPI"
+      regex: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+      severity: 3
+    - code: DKFM020
+      name: "Artifactory API token"
+      description: "Searches for an Artifactory API token inside the code"
+      message: "Line contains an Artifactory API Key"
+      attribution: "https://github.com/l4yton/RegHex"
+      regex: "(?:\\s|=|:|\"|^)AKC[a-zA-Z0-9]{10,}"
+      severity: 2
+    - code: DKFM021
+      name: "Artifactory Password"
+      description: "Searches for an Artifactory password inside the code"
+      message: "Line may contain an Artifactory password"
+      attribution: "https://github.com/l4yton/RegHex"
+      regex: "(?:\\s|=|:|\"|^)AP[\\dABCDEF][a-zA-Z0-9]{8,}"
+      severity: 2
+    - code: DKFM022
+      name: "Vault Token"
+      description: "Searches for a Hashicorp Vault token inside the code"
+      message: "Line contains a Hashicorp Cault token "
+      attribution: "https://github.com/l4yton/RegHex"
+      regex: "[sb]\\.[a-zA-Z0-9]{24}"
+      severity: 4
+    # - code: DKFM023
+    #   name: "Parameterized URLs"
+    #   description: "Searches for parametrized URLs inside the code"
+    #   message: "Line may contain a parametrized URL "
+    #   attribution: "https://github.com/l4yton/RegHex"
+    #   regex: "^[^?#]+\\?([^#]+)"
+    #   severity: 4

@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"fmt"
+	"os"
 	"strings"
 )
 
@@ -19,11 +21,21 @@ func Contains(s []string, str string) bool {
 	return false
 }
 
-func StartsWith(s []string, str string) bool {
-	for _, v := range s {
-		if strings.HasPrefix(str, v) {
+func StartsWith(s []string, searchString string) bool {
+	for _, prefix := range s {
+		if strings.HasPrefix(searchString, prefix) {
 			return true
 		}
 	}
 	return false
+}
+
+func LuchaDir() (path string, err error) {
+
+	d, err := os.UserHomeDir()
+	if err != nil {
+		return
+	}
+	luchaDir := fmt.Sprintf("%s/%s", d, ".lucha")
+	return luchaDir, nil
 }

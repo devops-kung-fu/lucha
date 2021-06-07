@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"text/template"
 
@@ -14,7 +15,14 @@ var (
 		Short: "Lists currently loadable rules.",
 		Long:  "Lists currently loadable rules",
 		Run: func(cmd *cobra.Command, args []string) {
-			_, err := lib.NewOsFs().LoadRules(version)
+			fs := lib.NewOsFs()
+			_, err := fs.LoadRules(version, RulesFile)
+			if err != nil {
+				RulesFileNotFound()
+			}
+			luchaRulesFile, _ := fs.LuchaRulesFile(RulesFile)
+			fmt.Printf("Loading %v rules from %s", len(lib.Rules), luchaRulesFile)
+			fmt.Println()
 			if lib.IsErrorBool(err, "[ERROR]") {
 				return
 			}

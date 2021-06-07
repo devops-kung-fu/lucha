@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+//Configuration encapsulates the high level lucha rules file structure
 type Configuration struct {
 	Version string `json:"version"`
 	Lucha   Lucha  `json:"lucha"`
@@ -29,10 +30,12 @@ func (c *Configuration) checkVersion(version string) (err error) {
 	return
 }
 
+//Lucha contains the rules used to evaluate files with
 type Lucha struct {
 	Rules []Rule `json:"rules"`
 }
 
+//Rule the definition of a rule used to check files against
 type Rule struct {
 	Code        string `json:"code"`
 	Name        string `json:"name"`
@@ -43,17 +46,14 @@ type Rule struct {
 	Severity    int64  `json:"severity,omitempty"`
 }
 
+//ScanFile encapsulates file information and issues for scanned files
 type ScanFile struct {
 	Path   string
 	Info   fs.FileInfo
 	Issues []Issue
 }
 
-//Returns the number of Issues in a scanned file
-func (s *ScanFile) IssueCount() int {
-	return len(s.Issues)
-}
-
+//Issue represents a found issue and the rule that failed
 type Issue struct {
 	LineNumber int
 	Rule       Rule
