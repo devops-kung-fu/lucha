@@ -55,7 +55,11 @@ func (f FileSystem) AppendIgnore(filename string) (err error) {
 
 //LoadIgnore loads content in from the .luchaignore file
 func (f FileSystem) LoadIgnore() (err error) {
-	filename, _ := filepath.Abs(".luchaignore")
+	pwd, err := os.Getwd()
+	if err != nil {
+		return
+	}
+	filename := fmt.Sprintf("%s/.luchaignore", pwd)
 	exists, _ := f.Afero().Exists(filename)
 	if !exists {
 		return nil
