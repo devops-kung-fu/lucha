@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"fmt"
+	"os"
 	"strings"
 )
 
@@ -26,4 +28,14 @@ func StartsWith(s []string, str string) bool {
 		}
 	}
 	return false
+}
+
+func LuchaDir() (path string, err error) {
+
+	d, err := os.UserHomeDir()
+	if err != nil {
+		return
+	}
+	luchaDir := fmt.Sprintf("%s/%s", d, ".lucha")
+	return luchaDir, nil
 }

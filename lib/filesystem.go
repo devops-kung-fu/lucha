@@ -102,6 +102,23 @@ func (f FileSystem) LoadRules(version string) (config Configuration, err error) 
 	return
 }
 
+func (f FileSystem) RefreshRules(version string) (config Configuration, err error) {
+	luchaDir, _ := LuchaDir()
+
+	exists, _ := f.Afero().DirExists(luchaDir)
+	if !exists {
+		err = f.Afero().Mkdir(luchaDir, 0700)
+		if err != nil {
+			return
+		}
+	}
+	_, err = f.DownloadURL("https://raw.githubusercontent.com/devops-kung-fu/lucha/main/lucha.yaml", luchaDir)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (f FileSystem) IsTextFile(file ScanFile) bool {
 	buf, _ := f.Afero().ReadFile(fmt.Sprintf("%s/%s", file.Path, file.Info.Name()))
 	size := 0

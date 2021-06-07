@@ -3,6 +3,7 @@ module github.com/devops-kung-fu/lucha
 go 1.16
 
 require (
+	github.com/cavaliercoder/grab v2.0.0+incompatible
 	github.com/gookit/color v1.4.2
 	github.com/spf13/afero v1.6.0
 	github.com/spf13/cobra v1.1.3
