@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/devops-kung-fu/lucha/lib"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
@@ -26,8 +28,11 @@ var (
 			}
 			fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
 			lib.IfErrorLog(err, "[ERROR]")
+			s := spinner.New(spinner.CharSets[21], 100*time.Millisecond)
+			s.Start()
 			fmt.Printf("Scanning files in %s\n\n", path)
 			files, issuesDetected, err := fs.FindIssues(path, recursive, maxSeverity)
+			s.Stop()
 			lib.IfErrorLog(err, "[ERROR]")
 			if issuesDetected {
 				color.Style{color.FgRed.Darken()}.Println("ISSUES DETECTED!")
