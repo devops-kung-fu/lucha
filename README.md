@@ -100,6 +100,10 @@ The ```.luchaignore``` file can be and should be checked in with your code.
 
 ## What's with the name Lucha?
 
+```Lucha``` is the Spanish word for fight, or struggle. We're not sure why [DJ Schleen](https://github.com/djschleen) chose ```lucha``` but it is a struggle to find passwords and API Keys in code, and if the Security team finds them exposed in a public repository then you're in for a fight. 
+
+Maybe he just likes wrestling. Ping him on [Twitter](https://twitter.com/djschleen).
+
 ## Software Bill of Materials
 
 ```lucha``` uses [Hookz](https://github.com/devops-kung-fu/hookz) and CycloneDX to generate a Software Bill of Materials in CycloneDX format every time a developer commits code to this repository. More information for CycloneDX is available [here](https://cyclonedx.org)
