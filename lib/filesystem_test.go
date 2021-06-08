@@ -124,6 +124,9 @@ func TestScanFiles(t *testing.T) {
 	assert.NoError(t, err, "There should be no error")
 	assert.Equal(t, 1, len(scanFiles), "There should be only one text file")
 
+	_, err = f.BuildFileList("...", false)
+	assert.Error(t, err, "There should be an error because the folder ... shouldn't exist")
+
 }
 
 func TestScanFilesRecursive(t *testing.T) {
