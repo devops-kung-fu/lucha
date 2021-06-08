@@ -3,7 +3,6 @@ package lib
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -12,6 +11,13 @@ import (
 
 	"github.com/spf13/afero"
 	"gopkg.in/yaml.v2"
+)
+
+var (
+	//Rules contains the loaded rules from lucha.yaml
+	Rules []Rule
+	//IgnoreFiles contains the names of files that shouldn't be processed from the .luchaignore file
+	IgnoreFiles []string
 )
 
 //FileSystem encapsulates the Afero fs Filesystem
@@ -159,25 +165,34 @@ func (f FileSystem) IsTextFile(file ScanFile) bool {
 }
 
 //ScanFiles grabs a list of files from the provided directory for scanning
-func ScanFiles(path string) (files []ScanFile, err error) {
-	tempFiles, err := ioutil.ReadDir(path)
+func (f FileSystem) ScanFiles(path string) (files []ScanFile, err error) {
+	// absPath, err := filepath.Abs(path)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	tempFiles, err := f.Afero().ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
 	for _, f := range tempFiles {
-		if !f.IsDir() && !Contains(IgnoreFiles, f.Name()) {
+		// if !f.IsDir() && !Contains(IgnoreFiles, f.Name()) {
+		// 	if StartsWith(IgnoreFiles, path) {
+		// 		break
+		// 	}
+		if !f.IsDir() {
 			files = append(files, ScanFile{
 				Path: path,
 				Info: f,
 			})
 		}
+		// }
 	}
 	return
 }
 
 //ScanFilesRecursive grabs a list of all files recursively for scanning
-func ScanFilesRecursive(path string) (files []ScanFile, err error) {
-	err = filepath.Walk(".",
+func (f FileSystem) ScanFilesRecursive(path string) (files []ScanFile, err error) {
+	err = filepath.Walk(path,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -195,6 +210,60 @@ func ScanFilesRecursive(path string) (files []ScanFile, err error) {
 		})
 	if err != nil {
 		log.Println(err)
+	}
+	return
+}
+
+// BuildFileList gathers the files to scan
+func (f FileSystem) BuildFileList(path string, recurse bool) (files []ScanFile, err error) {
+	if recurse {
+		files, err = f.ScanFilesRecursive(path)
+	} else {
+		files, err = f.ScanFiles(path)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (f FileSystem) FindIssues(path string, recurse bool, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
+	files, err := f.BuildFileList(path, recurse)
+	if err != nil {
+		return nil, false, err
+	}
+	for _, fl := range files {
+		if f.IsTextFile(fl) {
+			filename, _ := filepath.Abs(fl.Path)
+			if err != nil {
+				return nil, false, err
+			}
+			file, err := f.fs.Open(filename)
+			defer func() {
+				err = file.Close()
+			}()
+			if err != nil {
+				return nil, false, err
+			}
+			lineNumber := 0
+			scanner := bufio.NewScanner(file)
+			for scanner.Scan() {
+				line := scanner.Text()
+				lineNumber++
+				issues, err := Evaluate(line, lineNumber, maxSeverity)
+				if err != nil {
+					return nil, false, err
+				}
+
+				if len(issues) > 0 {
+					fl.Issues = append(fl.Issues, issues...)
+					violationsDetected = true
+				}
+			}
+			if violationsDetected {
+				violations = append(violations, fl)
+			}
+		}
 	}
 	return
 }

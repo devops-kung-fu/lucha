@@ -20,7 +20,7 @@ var (
 	//NoFail is true if the application should not return a non-zero exit code
 	NoFail  bool
 	rootCmd = &cobra.Command{
-		Use:     "lucha scan",
+		Use:     "lucha",
 		Short:   `"Scans for sensitive data in source code`,
 		Version: version,
 	}

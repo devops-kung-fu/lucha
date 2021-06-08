@@ -25,7 +25,7 @@ func createTestFileSystem() {
 	defer file.Close()
 	file.WriteString(fmt.Sprintf("%s\n", "test"))
 
-	f.AppendIgnore("test")
+	f.AppendIgnore("test.txt")
 	config := Configuration{
 		Version: version,
 		Lucha: Lucha{
@@ -61,13 +61,16 @@ func TestNewOsFs(t *testing.T) {
 }
 
 func TestFileSystem_AppendIgnore(t *testing.T) {
-	err := f.AppendIgnore("TEST")
+	err := f.AppendIgnore("test.txt")
 	assert.NoError(t, err, "No error should come out of this method")
 
 	path, _ := os.Getwd()
 	fullFileName := fmt.Sprintf("%s/.luchaignore", path)
-	contains, _ := f.Afero().FileContainsBytes(fullFileName, []byte("TEST"))
+	contains, _ := f.Afero().FileContainsBytes(fullFileName, []byte("test.txt"))
 	assert.True(t, contains, ".luchaignore file should have the phrase `TEST` in it")
+
+	err = f.AppendIgnore("test.txt")
+	assert.NoError(t, err, "Trying to add the test.txt file again. No error should come out of this method")
 }
 
 func TestFileSystem_LoadIgnore(t *testing.T) {
@@ -114,6 +117,12 @@ func TestFileSystem_IsTextFile(t *testing.T) {
 }
 
 func TestScanFiles(t *testing.T) {
+	createTestFileSystem()
+
+	scanFiles, err := f.BuildFileList(".", false)
+
+	assert.NoError(t, err, "There should be no error")
+	assert.Equal(t, 1, len(scanFiles), "There should be only one text file")
 
 }
 
