@@ -99,6 +99,23 @@ The recommended way to run Lucha is to configure [Hookz](https://github.com/devo
 
 It's strongly recommended that you **never** use this flag, but it may come in handy in your CI/CD environment. **USE AT YOUR OWN DISCRETION**
 
+## Results
+
+When ```lucha``` returns results they will be sorted by file name and issues. Each issue has a color indicator, the name of the file with issues, the line number, and the description of the violation. If you are using Visual Studio Code, you can simply CTRL-click on the file:line:1 string to open the editor to the line containing the violation.
+
+There are 5 status colors and severities that ```lucha``` may display. Their meaning is as follows:
+
+| Color   | Severity          |
+| ------- | ----------------- |
+| Blue    | 0 - Informational |
+| Cyan    | 1 - Low           |
+| Yellow  | 2 - Medium        |
+| Magenta | 3 - High          |
+| Red     | 4 - Critical      |
+
+
+
+
 ## Ignoring Files
 You may want to ignore files that are show false positives. For example in Go, ```lucha``` will show that there may be AWS Keys in the ```go.mod``` file. To ignore any file you can use ```lucha ignore [filename]``` which will create a file named ```.luchaignore```, or create a ```.luchaignore``` file in the root of your repository with the names or paths to ignore. 
 

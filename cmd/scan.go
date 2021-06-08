@@ -69,6 +69,8 @@ func printSeverityIndicator(severity int) {
 	switch severity {
 	case 0:
 		color.Style{color.FgBlue}.Print("■")
+	case 1:
+		color.Style{color.FgCyan}.Print("■")
 	case 2:
 		color.Style{color.FgYellow}.Print("■")
 	case 3:
