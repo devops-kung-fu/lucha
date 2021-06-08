@@ -3,7 +3,7 @@ package lib
 import (
 	"errors"
 	"fmt"
-	"io/fs"
+	"os"
 	"strings"
 )
 
@@ -49,7 +49,7 @@ type Rule struct {
 //ScanFile encapsulates file information and issues for scanned files
 type ScanFile struct {
 	Path   string
-	Info   fs.FileInfo
+	Info   os.FileInfo
 	Issues []Issue
 }
 
