@@ -14,7 +14,8 @@ If you are scanning for secrets with a GitHub Action on a Pull Request then you'
 Talk about shifting left, right?
 
 ## Lucha in Action
-Lucha can run in any terminal, and is language agnostic. The following screenshot shows Lucha running inside the Visual Studio Code embedded terminal. Lucha is showing secrets detected in a ```test.txt``` file.
+
+Lucha can run in any terminal and is language agnostic. The following screenshot shows Lucha running inside the Visual Studio Code embedded terminal. Lucha is showing secrets detected in a ```test.txt``` file.
 
 ![lucha-vscode](img/lucha-vscode.png)
 
@@ -60,7 +61,7 @@ sudo mv lucha-0.0.1-linux-amd64 /usr/local/bin/lucha
 
 ### Setting up Rules
 
-After downloading the ```lucha``` binary, you'll need to grab the latest rules. The easiest way to do this is to run the following:
+After downloading and installing the ```lucha``` binary, you'll need to grab the latest rules. The easiest way to do this is to run the following:
 
 ``` bash
 lucha rules refresh
@@ -72,6 +73,10 @@ Alternately, you can manually create or download rules for ```lucha``` and refer
 ``` bash
 lucha scan --recursive --rules-file rules.yaml .
 ```
+
+### Listing current Rules and Descriptions
+
+To see information about what rules ```lucha``` is scanning for, use the ```lucha rules list``` command. This will also tell you the version of your rules file.
 
 ### Scanning
 
@@ -88,10 +93,11 @@ The recommended way to run Lucha is to configure [Hookz](https://github.com/devo
 ``` yaml
         - name: "lucha: scan source code for sensitive data"
           exec: lucha
-          args: ["scan", "--recursive", "--no-fail", "."]
+          args: ["scan", "--recursive", "."]
 ```
 ### No Fail
 
+It's strongly recommended that you **never** use this flag, but it may come in handy in your CI/CD environment. **USE AT YOUR OWN DISCRETION**
 
 ## Ignoring Files
 You may want to ignore files that are show false positives. For example in Go, ```lucha``` will show that there may be AWS Keys in the ```go.mod``` file. To ignore any file you can use ```lucha ignore [filename]``` which will create a file named ```.luchaignore```, or create a ```.luchaignore``` file in the root of your repository with the names or paths to ignore. 
