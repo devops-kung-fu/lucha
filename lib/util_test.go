@@ -52,7 +52,6 @@ func TestStartsWith(t *testing.T) {
 
 	startsWith = StartsWith(testArray, "ge")
 	assert.False(t, startsWith, "The test array should not contain an element that starts with `ge`")
-
 }
 
 func TestContains(t *testing.T) {

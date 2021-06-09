@@ -16,7 +16,7 @@ var (
 		Long:  "Lists currently loadable rules",
 		Run: func(cmd *cobra.Command, args []string) {
 			fs := lib.NewOsFs()
-			_, err := fs.LoadRules(version, RulesFile)
+			config, err := fs.LoadRules(version, RulesFile)
 			if err != nil {
 				RulesFileNotFound()
 			}
@@ -29,6 +29,9 @@ var (
 			if lib.IsErrorBool(displayRules(), "[ERROR]") {
 				return
 			}
+			fmt.Println()
+			fmt.Printf("Rules Version: %s\n", config.Version)
+			fmt.Printf("# of Rules:    %v\n", len(lib.Rules))
 		},
 	}
 )
