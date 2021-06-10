@@ -90,7 +90,8 @@ func TestFileSystem_LoadIgnore(t *testing.T) {
 }
 
 func TestFileSystem_LoadRules(t *testing.T) {
-	createTestFileSystem()d)
+	createTestFileSystem()
+
 	config, err := f.LoadRules(version, "lucha.yaml")
 	versionErr := config.checkVersion(version)
 
