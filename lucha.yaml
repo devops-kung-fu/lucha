@@ -151,7 +151,7 @@ lucha:
     - code: DKFM022
       name: "Vault Token"
       description: "Searches for a Hashicorp Vault token inside the code"
-      message: "Line contains a Hashicorp Cault token "
+      message: "Line may contain a Hashicorp Vault token "
       attribution: "https://github.com/l4yton/RegHex"
       regex: "[sb]\\.[a-zA-Z0-9]{24}"
       severity: 4

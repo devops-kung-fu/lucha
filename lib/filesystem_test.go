@@ -3,7 +3,6 @@ package lib
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/spf13/afero"
@@ -21,6 +20,17 @@ var (
 
 func createTestFileSystem() {
 	file, _ := f.fs.OpenFile("test.txt",
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	defer file.Close()
+	file.WriteString(fmt.Sprintf("%s\n", "test"))
+	f.fs.MkdirAll("foo/bar", 0644)
+
+	file, _ = f.fs.OpenFile("foo/foo.txt",
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	defer file.Close()
+	file.WriteString(fmt.Sprintf("%s\n", "test"))
+
+	file, _ = f.fs.OpenFile("foo/bar/bar.txt",
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	defer file.Close()
 	file.WriteString(fmt.Sprintf("%s\n", "test"))
@@ -45,8 +55,7 @@ func createTestFileSystem() {
 
 	lf, _ := yaml.Marshal(config)
 
-	filename, _ := filepath.Abs("lucha.yaml")
-	f.Afero().WriteFile(filename, lf, 0644)
+	f.Afero().WriteFile("lucha.yaml", lf, 0644)
 
 }
 
@@ -75,26 +84,14 @@ func TestFileSystem_AppendIgnore(t *testing.T) {
 
 func TestFileSystem_LoadIgnore(t *testing.T) {
 	createTestFileSystem()
-	err := f.LoadIgnore()
+	root := "."
+	err := f.LoadIgnore(root)
 	assert.NoError(t, err, "Should be no error loading the .luchaignore file")
 }
 
-func TestFileSystem_LuchaRulesFile(t *testing.T) {
-	createTestFileSystem()
-	pwd, _ := os.Getwd()
-	filename := fmt.Sprintf("%s/lucha.yaml", pwd)
-
-	file, err := f.LuchaRulesFile("lucha.yaml")
-
-	assert.NoError(t, err, "There should be no error")
-	assert.Equal(t, file, filename, "Paths should be equal")
-}
-
 func TestFileSystem_LoadRules(t *testing.T) {
-	createTestFileSystem()
-	pwd, _ := os.Getwd()
-	filename := fmt.Sprintf("%s/lucha.yaml", pwd)
-	config, err := f.LoadRules(version, filename)
+	createTestFileSystem()d)
+	config, err := f.LoadRules(version, "lucha.yaml")
 	versionErr := config.checkVersion(version)
 
 	assert.NoError(t, err, "There should be no error loading lucha.yaml")
@@ -102,33 +99,24 @@ func TestFileSystem_LoadRules(t *testing.T) {
 	assert.Equal(t, 1, len(config.Lucha.Rules), "There should have only been one rule")
 }
 
-func TestFileSystem_IsTextFile(t *testing.T) {
-	createTestFileSystem()
+// func TestFileSystem_BuildFileList(t *testing.T) {
+// 	createTestFileSystem()
 
-	info, _ := f.Afero().Stat("test.txt")
-	scanFile := ScanFile{
-		Path:   ".",
-		Info:   info,
-		Issues: []Issue{},
-	}
-	test := f.IsTextFile(scanFile)
+// 	root := "."
 
-	assert.True(t, test, "test.txt should have been set up as a text file")
-}
+// 	scanFiles, err := f.BuildFileList(root, false)
 
-func TestScanFiles(t *testing.T) {
-	createTestFileSystem()
+// 	assert.NoError(t, err, "There should be no error")
+// 	assert.Equal(t, 3, len(scanFiles), "Expecting .luchaignore, lucha.yaml, and test.txt")
 
-	scanFiles, err := f.BuildFileList(".", false)
+// 	scanFiles, err = f.BuildFileList(".", true)
 
-	assert.NoError(t, err, "There should be no error")
-	assert.Equal(t, 1, len(scanFiles), "There should be only one text file")
+// 	assert.NoError(t, err, "There should be no error")
+// 	assert.Equal(t, 5, len(scanFiles), "Expecting 5 files")
 
-	_, err = f.BuildFileList("...", false)
-	assert.Error(t, err, "There should be an error because the folder ... shouldn't exist")
+// 	_, err = f.BuildFileList("...", false)
+// 	assert.Error(t, err, "There should be an error because the folder ... shouldn't exist")
 
-}
-
-func TestScanFilesRecursive(t *testing.T) {
-
-}
+// 	_, err = f.BuildFileList("...", true)
+// 	assert.Error(t, err, "There should be an error because the folder ... shouldn't exist")
+// }

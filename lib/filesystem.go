@@ -16,8 +16,8 @@ import (
 var (
 	//Rules contains the loaded rules from lucha.yaml
 	Rules []Rule
-	//IgnoreFiles contains the names of files that shouldn't be processed from the .luchaignore file
-	IgnoreFiles []string
+	//Ignores contains the names of files that shouldn't be processed from the .luchaignore file
+	Ignores []string
 )
 
 //FileSystem encapsulates the Afero fs Filesystem
@@ -60,12 +60,8 @@ func (f FileSystem) AppendIgnore(filename string) (err error) {
 }
 
 //LoadIgnore loads content in from the .luchaignore file
-func (f FileSystem) LoadIgnore() (err error) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		return
-	}
-	filename := fmt.Sprintf("%s/.luchaignore", pwd)
+func (f FileSystem) LoadIgnore(root string) (err error) {
+	filename := fmt.Sprintf("%s/.luchaignore", root)
 	exists, _ := f.Afero().Exists(filename)
 	if !exists {
 		return nil
@@ -90,44 +86,22 @@ func (f FileSystem) LoadIgnore() (err error) {
 		}
 	}
 
-	IgnoreFiles = ignores
+	Ignores = ignores
 	return
 }
 
-//LuchaRulesFile when passed a filename returns the absolute path
-func (f FileSystem) LuchaRulesFile(file string) (luchaFile string, err error) {
-	if filepath.IsAbs(file) {
-		luchaFile = file
-		return
-	} else {
-		luchaFile, err = filepath.Abs(file)
-		return
-	}
-}
-
 //LoadRules loads the lucha.yaml rules file into memory
-func (f FileSystem) LoadRules(version string, file string) (config Configuration, err error) {
-	filename, err := f.LuchaRulesFile(file)
+func (f FileSystem) LoadRules(version string, luchaFile string) (config Configuration, err error) {
+	yamlFile, err := f.Afero().ReadFile(luchaFile)
 	if err != nil {
 		return
 	}
-	err = f.LoadIgnore()
-	if err != nil {
-		return
-	}
-
-	yamlFile, err := f.Afero().ReadFile(filename)
-	if err != nil {
-		return
-	}
-
 	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
 		return
 	}
 
 	err = config.checkVersion(version)
-
 	Rules = config.Lucha.Rules
 
 	return
@@ -152,8 +126,8 @@ func (f FileSystem) RefreshRules(version string) (config Configuration, err erro
 }
 
 //IsTextFile examines a file and returns true if the file is UTF-8
-func (f FileSystem) IsTextFile(file ScanFile) bool {
-	buf, _ := f.Afero().ReadFile(fmt.Sprintf("%s/%s", file.Path, file.Info.Name()))
+func (f FileSystem) shouldScan(file os.FileInfo) bool {
+	buf, _ := f.Afero().ReadFile(file.Name()) //fmt.Sprintf("%s/%s", file.Path, file.Info.Name()))
 	size := 0
 	for start := 0; start < len(buf); start += size {
 		var r rune
@@ -164,105 +138,85 @@ func (f FileSystem) IsTextFile(file ScanFile) bool {
 	return true
 }
 
-//ScanFiles grabs a list of files from the provided directory for scanning
-func (f FileSystem) ScanFiles(path string) (files []ScanFile, err error) {
-	// absPath, err := filepath.Abs(path)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	tempFiles, err := f.Afero().ReadDir(path)
-	if err != nil {
-		return nil, err
-	}
-	for _, f := range tempFiles {
-		// if !f.IsDir() && !Contains(IgnoreFiles, f.Name()) {
-		// 	if StartsWith(IgnoreFiles, path) {
-		// 		break
-		// 	}
-		if !f.IsDir() {
-			files = append(files, ScanFile{
-				Path: path,
-				Info: f,
-			})
+func canIgnore(file os.FileInfo, path string) bool {
+	for _, ignore := range Ignores {
+		if ignore == file.Name() {
+			return true
 		}
-		// }
+		if strings.HasPrefix(path, ignore) {
+			return true
+		}
 	}
-	return
+	return false
 }
 
-//ScanFilesRecursive grabs a list of all files recursively for scanning
-func (f FileSystem) ScanFilesRecursive(path string) (files []ScanFile, err error) {
-	err = filepath.Walk(path,
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			if !info.IsDir() && !Contains(IgnoreFiles, info.Name()) {
-				if StartsWith(IgnoreFiles, path) {
-					return nil
-				}
-				files = append(files, ScanFile{
-					Path: path,
-					Info: info,
-				})
-			}
+func (fs FileSystem) visit(files *[]ScanFile, recursive bool) filepath.WalkFunc {
+	return func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			log.Fatal(err)
+		}
+		if info.IsDir() && !recursive {
 			return nil
+		}
+		if !fs.shouldScan(info) {
+			return nil
+		}
+		if canIgnore(info, path) {
+			return nil
+		}
+		*files = append(*files, ScanFile{
+			Path: path,
+			Info: info,
 		})
-	if err != nil {
-		log.Println(err)
+
+		return nil
 	}
-	return
 }
 
 // BuildFileList gathers the files to scan
-func (f FileSystem) BuildFileList(path string, recurse bool) (files []ScanFile, err error) {
-	if recurse {
-		files, err = f.ScanFilesRecursive(path)
-	} else {
-		files, err = f.ScanFiles(path)
-	}
+func (fs FileSystem) BuildFileList(root string, recursive bool) (files []ScanFile, err error) {
+	err = fs.Afero().Walk(root, fs.visit(&files, recursive))
 	if err != nil {
 		return nil, err
 	}
+
 	return
 }
 
-func (f FileSystem) FindIssues(path string, recurse bool, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
-	files, err := f.BuildFileList(path, recurse)
+func (fs FileSystem) FindIssues(path string, recurse bool, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
+	files, err := fs.BuildFileList(path, recurse)
 	if err != nil {
 		return nil, false, err
 	}
 	for _, fl := range files {
-		if f.IsTextFile(fl) {
-			filename, _ := filepath.Abs(fl.Path)
+		filename, _ := filepath.Abs(fl.Path)
+		if err != nil {
+			return nil, false, err
+		}
+		file, err := fs.fs.Open(filename)
+		defer func() {
+			err = file.Close()
+		}()
+		if err != nil {
+			return nil, false, err
+		}
+		lineNumber := 0
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			line := scanner.Text()
+			lineNumber++
+			issues, err := Evaluate(line, lineNumber, maxSeverity)
 			if err != nil {
 				return nil, false, err
 			}
-			file, err := f.fs.Open(filename)
-			defer func() {
-				err = file.Close()
-			}()
-			if err != nil {
-				return nil, false, err
-			}
-			lineNumber := 0
-			scanner := bufio.NewScanner(file)
-			for scanner.Scan() {
-				line := scanner.Text()
-				lineNumber++
-				issues, err := Evaluate(line, lineNumber, maxSeverity)
-				if err != nil {
-					return nil, false, err
-				}
 
-				if len(issues) > 0 {
-					fl.Issues = append(fl.Issues, issues...)
-					violationsDetected = true
-				}
+			if len(issues) > 0 {
+				fl.Issues = append(fl.Issues, issues...)
+				violationsDetected = true
 			}
-			if violationsDetected {
-				violations = append(violations, fl)
-			}
+		}
+		if violationsDetected {
+			violations = append(violations, fl)
 		}
 	}
 	return

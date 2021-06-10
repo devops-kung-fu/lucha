@@ -3,8 +3,19 @@ package lib
 import (
 	"errors"
 	"fmt"
+	"os"
 	"regexp"
 )
+
+//LuchaDir returns the path where the default Lucha rules are stored
+func LuchaDir() (path string, err error) {
+	d, err := os.UserHomeDir()
+	if err != nil {
+		return
+	}
+	luchaDir := fmt.Sprintf("%s/%s", d, ".lucha")
+	return luchaDir, nil
+}
 
 func Evaluate(line string, lineNumber int, maxSeverity int) (issues []Issue, err error) {
 	for _, r := range Rules {

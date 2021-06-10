@@ -3,4 +3,4 @@ lucha-sbom.json
 lucha.yaml
 lucha
 go.sum
-.git/
+.git
