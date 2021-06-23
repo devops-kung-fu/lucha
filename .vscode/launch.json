@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "Debug",
             "type": "go",
@@ -30,13 +31,20 @@
             "args": ["scan", "--recursive"]
         },
         {
-            "name": "Debug Hookz (Recursive)",
+            "name": "Debug Lucha on Hookz (Recursive)",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceRoot}/main.go",
             "args": ["scan", "--recursive", "../hookz/"]
+        },
+        {
+            "name": "Debug Lucha on Hookz",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceRoot}/main.go",
+            "args": ["scan", "../hookz/"]
         }
-
     ]
 }

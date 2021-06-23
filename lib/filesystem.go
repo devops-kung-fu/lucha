@@ -126,7 +126,7 @@ func (f FileSystem) RefreshRules(version string) (config Configuration, err erro
 }
 
 //IsTextFile examines a file and returns true if the file is UTF-8
-func (f FileSystem) shouldScan(file os.FileInfo) bool {
+func (f FileSystem) isUTF8(file os.FileInfo) bool {
 	buf, _ := f.Afero().ReadFile(file.Name()) //fmt.Sprintf("%s/%s", file.Path, file.Info.Name()))
 	size := 0
 	for start := 0; start < len(buf); start += size {
@@ -138,9 +138,14 @@ func (f FileSystem) shouldScan(file os.FileInfo) bool {
 	return true
 }
 
-func canIgnore(file os.FileInfo, path string) bool {
+func canIgnore(file os.FileInfo, originalRoot string, path string) bool {
 	for _, ignore := range Ignores {
-		if ignore == file.Name() {
+		name := file.Name()
+		if path != "." {
+			ignore = fmt.Sprintf("%s%s", originalRoot, ignore)
+			name = fmt.Sprintf("%s%s", originalRoot, name)
+		}
+		if ignore == name {
 			return true
 		}
 		if strings.HasPrefix(path, ignore) {
@@ -150,24 +155,26 @@ func canIgnore(file os.FileInfo, path string) bool {
 	return false
 }
 
-func (fs FileSystem) visit(files *[]ScanFile, recursive bool) filepath.WalkFunc {
+func (fs FileSystem) visit(files *[]ScanFile, originalRoot string, recursive bool) filepath.WalkFunc {
 	return func(path string, info os.FileInfo, err error) error {
+
+		scanFile := ScanFile{
+			Path: path,
+			Info: info,
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
 		if info.IsDir() && !recursive {
 			return nil
 		}
-		if !fs.shouldScan(info) {
+		if !fs.isUTF8(info) {
 			return nil
 		}
-		if canIgnore(info, path) {
+		if canIgnore(info, originalRoot, path) {
 			return nil
 		}
-		*files = append(*files, ScanFile{
-			Path: path,
-			Info: info,
-		})
+		*files = append(*files, scanFile)
 
 		return nil
 	}
@@ -175,7 +182,8 @@ func (fs FileSystem) visit(files *[]ScanFile, recursive bool) filepath.WalkFunc 
 
 // BuildFileList gathers the files to scan
 func (fs FileSystem) BuildFileList(root string, recursive bool) (files []ScanFile, err error) {
-	err = fs.Afero().Walk(root, fs.visit(&files, recursive))
+	originalRoot := root
+	err = fs.Afero().Walk(root, fs.visit(&files, originalRoot, recursive))
 	if err != nil {
 		return nil, err
 	}
