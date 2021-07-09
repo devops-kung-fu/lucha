@@ -83,32 +83,6 @@ func TestNewOsFs(t *testing.T) {
 // 	assert.NoError(t, err, "Trying to add the test.txt file again. No error should come out of this method")
 // }
 
-func TestFileSystem_LoadIgnore(t *testing.T) {
-	fs := FileSystem{
-		fs: afero.NewMemMapFs(),
-	}
-
-	createTestFileSystem(fs)
-	root := "."
-	err := LoadIgnore(fs, root)
-	assert.NoError(t, err)
-}
-
-func TestFileSystem_LoadRules(t *testing.T) {
-	fs := FileSystem{
-		fs: afero.NewMemMapFs(),
-	}
-
-	createTestFileSystem(fs)
-
-	config, err := LoadRules(fs, version, "lucha.yaml")
-	versionErr := config.checkVersion(version)
-
-	assert.NoError(t, err)
-	assert.NoError(t, versionErr)
-	assert.Equal(t, 1, len(config.Lucha.Rules))
-}
-
 // func TestFileSystem_BuildFileList(t *testing.T) {
 // 	createTestFileSystem()
 

@@ -87,10 +87,10 @@ func init() {
 
 func initScan(fs lib.FileSystem) (err error) {
 
-	err = lib.LoadIgnore(fs, fs.SearchPath)
-	if err != nil {
-		return
-	}
+	// err = lib.LoadIgnore(fs, fs.SearchPath)
+	// if err != nil {
+	// 	return
+	// }
 
 	_, err = lib.LoadRules(fs, version, LuchaRulesFile)
 	if err != nil {

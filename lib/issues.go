@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func FindIssues(fs FileSystem, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
+func FindIssues(fs FileSystem, minSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
 	files, err := BuildFileList(fs)
 	if err != nil {
 		return nil, false, err
@@ -31,7 +31,7 @@ func FindIssues(fs FileSystem, maxSeverity int) (violations []ScanFile, violatio
 			for scanner.Scan() {
 				line := scanner.Text()
 				lineNumber++
-				issues, err := Evaluate(line, lineNumber, maxSeverity)
+				issues, err := Evaluate(line, lineNumber, minSeverity)
 				if err != nil {
 					return nil, false, err
 				}

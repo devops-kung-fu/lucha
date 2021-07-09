@@ -112,8 +112,9 @@ func BuildFileList(fs FileSystem) (fileList []string, err error) {
 	if err != nil {
 		return
 	}
+	ignores, _ := LoadIgnore(fs)
 	err = fs.Afero().Walk(path, func(path string, f os.FileInfo, err error) error {
-		if shouldIgnore(path, Ignores) {
+		if shouldIgnore(path, ignores) {
 			fileList = append(fileList, path)
 		}
 		return nil

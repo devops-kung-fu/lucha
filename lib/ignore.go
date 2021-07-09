@@ -2,19 +2,17 @@ package lib
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"strings"
 )
 
-//Ignores a collection of patterns to ignore
-var Ignores []string
-
 //LoadIgnore loads content in from the .luchaignore file
-func LoadIgnore(fs FileSystem, root string) (err error) {
-	filename := fmt.Sprintf("%s/.luchaignore", root)
-	exists, _ := fs.Afero().Exists(filename)
+func LoadIgnore(fs FileSystem) (ignores []string, err error) {
+	filename := fmt.Sprintf("%s/.luchaignore", fs.SearchPath)
+	exists, err := fs.Afero().Exists(filename)
 	if !exists {
-		return nil
+		return ignores, errors.New("no ignore file exists")
 	}
 	file, err := fs.fs.Open(filename)
 	if err != nil {
@@ -26,7 +24,6 @@ func LoadIgnore(fs FileSystem, root string) (err error) {
 
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
-	var ignores []string
 
 	for scanner.Scan() {
 		text := scanner.Text()
@@ -37,7 +34,5 @@ func LoadIgnore(fs FileSystem, root string) (err error) {
 			ignores = append(ignores, text)
 		}
 	}
-
-	Ignores = ignores
 	return
 }
