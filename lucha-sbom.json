@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.2",
-  "serialNumber": "urn:uuid:f33bb3ad-d0e9-48d9-96e1-9fdda4fb9567",
+  "serialNumber": "urn:uuid:2a0d7aca-559d-4cbe-b779-8071378f9bd1",
   "version": 1,
   "metadata": {
-    "timestamp": "2021-07-09T16:41:20-06:00",
+    "timestamp": "2021-07-09T16:47:36-06:00",
     "tools": [
       {
         "vendor": "CycloneDX",
@@ -31,11 +31,11 @@
       }
     ],
     "component": {
-      "bom-ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210709161952-2646196ce4ad",
+      "bom-ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210709164107-002dcac345c4",
       "type": "application",
       "name": "github.com/devops-kung-fu/lucha",
-      "version": "v0.0.0-20210709161952-2646196ce4ad",
-      "purl": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210709161952-2646196ce4ad",
+      "version": "v0.0.0-20210709164107-002dcac345c4",
+      "purl": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210709164107-002dcac345c4",
       "externalReferences": [
         {
           "url": "https://github.com/devops-kung-fu/lucha",
@@ -520,7 +520,7 @@
       "ref": "pkg:golang/gopkg.in/yaml.v2@v2.4.0"
     },
     {
-      "ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210709161952-2646196ce4ad",
+      "ref": "pkg:golang/github.com/devops-kung-fu/lucha@v0.0.0-20210709164107-002dcac345c4",
       "dependsOn": [
         "pkg:golang/github.com/briandowns/spinner@v1.16.0",
         "pkg:golang/github.com/dustin/go-humanize@v1.0.0",

@@ -20,8 +20,8 @@ func Test_LoadRules(t *testing.T) {
 
 	createTestFileSystem(fs)
 
-	config, err := LoadRules(fs, version, "lucha.yaml")
-	versionErr := config.checkVersion(version)
+	config, err := LoadRules(fs, "1.0.0", "lucha.yaml")
+	versionErr := config.checkVersion("1.0.0")
 
 	assert.NoError(t, err)
 	assert.NoError(t, versionErr)

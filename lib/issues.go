@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+//FindIssues scans the provided filesystem for issues
 func FindIssues(fs FileSystem, minSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
 	files, err := BuildFileList(fs)
 	if err != nil {

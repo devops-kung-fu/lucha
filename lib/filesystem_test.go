@@ -10,11 +10,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var (
-	version string = "1.0.0"
-	// config  Configuration
-)
-
 func createTestFileSystem(fs FileSystem) {
 	file, _ := fs.fs.OpenFile("test.txt",
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -34,7 +29,7 @@ func createTestFileSystem(fs FileSystem) {
 
 	//AppendIgnore(fs, "test.txt")
 	config := Configuration{
-		Version: version,
+		Version: "1.0.0",
 		Lucha: Lucha{
 			Rules: []Rule{
 				{
@@ -56,7 +51,7 @@ func createTestFileSystem(fs FileSystem) {
 
 }
 
-func TestNewOsFs(t *testing.T) {
+func Test_NewOsFs(t *testing.T) {
 	f := FileSystem{}
 
 	var i interface{} = NewOsFs()
@@ -65,23 +60,6 @@ func TestNewOsFs(t *testing.T) {
 	assert.IsType(t, f, i)
 	assert.IsType(t, fs, NewOsFs().fs)
 }
-
-// func TestFileSystem_AppendIgnore(t *testing.T) {
-// 	fs := FileSystem{
-// 		fs: afero.NewMemMapFs(),
-// 	}
-
-// 	err := AppendIgnore(fs, "test.txt")
-// 	assert.NoError(t, err, "No error should come out of this method")
-
-// 	path, _ := os.Getwd()
-// 	fullFileName := fmt.Sprintf("%s/.luchaignore", path)
-// 	contains, _ := fs.Afero().FileContainsBytes(fullFileName, []byte("test.txt"))
-// 	assert.True(t, contains, ".luchaignore file should have the phrase `TEST` in it")
-
-// 	err = AppendIgnore(fs, "test.txt")
-// 	assert.NoError(t, err, "Trying to add the test.txt file again. No error should come out of this method")
-// }
 
 // func TestFileSystem_BuildFileList(t *testing.T) {
 // 	createTestFileSystem()
