@@ -3,6 +3,7 @@ package lib
 import (
 	"bufio"
 	"path/filepath"
+	"strings"
 )
 
 func FindIssues(fs FileSystem, maxSeverity int) (violations []ScanFile, violationsDetected bool, err error) {
@@ -36,9 +37,7 @@ func FindIssues(fs FileSystem, maxSeverity int) (violations []ScanFile, violatio
 				}
 
 				if len(issues) > 0 {
-					// dir, _ := os.Getwd()
-					// fn := strings.ReplaceAll(fl, dir, "")
-					scanFile.Path = fl
+					scanFile.Path = strings.ReplaceAll(fl, fs.AbsoluteSearchPath(), strings.TrimSuffix(fs.SearchPath, "/"))
 					scanFile.Issues = append(scanFile.Issues, issues...)
 					violationsDetected = true
 				}

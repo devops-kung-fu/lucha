@@ -23,6 +23,11 @@ type FileSystem struct {
 	Recursive  bool
 }
 
+func (fs FileSystem) AbsoluteSearchPath() string {
+	path, _ := filepath.Abs(fs.SearchPath)
+	return path
+}
+
 //NewOsFs returns a new local os file system
 func NewOsFs() FileSystem {
 	return FileSystem{
