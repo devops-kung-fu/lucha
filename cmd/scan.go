@@ -61,7 +61,7 @@ var (
 						if len(f.Issues) > 0 {
 							fmt.Println(f.Path)
 							for _, i := range f.Issues {
-								fmt.Print("    ")
+								fmt.Print("  ")
 								printSeverityIndicator(int(i.Rule.Severity))
 								fmt.Printf(" %s:%v:1, %s\n", f.Path, i.LineNumber, i.Rule.Message)
 							}
