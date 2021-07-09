@@ -1,7 +1,6 @@
 package lib
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"regexp"
@@ -25,7 +24,7 @@ func Evaluate(line string, lineNumber int, maxSeverity int) (issues []Issue, err
 			var issue Issue
 			compiledRegex, err := regexp.Compile(r.Regex)
 			if err != nil {
-				return nil, errors.New(fmt.Sprintf("%s has an invalid regex: %s", r.Code, r.Regex))
+				return nil, fmt.Errorf("%s has an invalid regex: %s", r.Code, r.Regex)
 			}
 			match := compiledRegex.Match([]byte(line))
 			if match {

@@ -12,7 +12,7 @@ import (
 
 var (
 	version string = "1.0.0"
-	config  Configuration
+	// config  Configuration
 )
 
 func createTestFileSystem(fs FileSystem) {

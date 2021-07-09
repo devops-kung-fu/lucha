@@ -36,7 +36,7 @@ func (fs FileSystem) Afero() *afero.Afero {
 }
 
 //IsTextFile examines a file and returns true if the file is UTF-8
-func isUTF8(fs FileSystem, file os.FileInfo) bool {
+func isUTF8(fs FileSystem, file afero.File) bool {
 	buf, _ := fs.Afero().ReadFile(file.Name()) //fmt.Sprintf("%s/%s", file.Path, file.Info.Name()))
 	size := 0
 	for start := 0; start < len(buf); start += size {
