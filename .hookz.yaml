@@ -1,4 +1,4 @@
-  version: 2.2.0
+  version: 2.3.0
   hooks:
     - type: pre-commit
       actions:
@@ -42,7 +42,7 @@
           exec: lucha
           args: ["scan", "--recursive", "--no-fail", "."]
         - name: "hinge: update dependabot.yaml if needed"
-          url: https://github.com/devops-kung-fu/hinge/releases/download/v0.1.0/hinge-0.1.0-linux-amd64
+          url: https://github.com/devops-kung-fu/hinge/releases/download/v0.1.0/hinge-0.1.0-%%PLATFORM%%-amd64
           args: ["."]
         - name: "git: Add all changed files during the pre-commit stage"
           exec: git

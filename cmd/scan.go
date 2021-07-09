@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -13,14 +14,15 @@ import (
 
 var (
 	recursive   bool
-	maxSeverity int
-	fs          lib.FileSystem
+	minSeverity int
 	scanCmd     = &cobra.Command{
 		Use:     "scan",
 		Short:   "Scans all files in the recursively and scans them for sensitive data.",
 		Long:    "Scans all files in the recursively and scans them for sensitive data.",
 		Example: "lucha scan --recursive .",
 		Run: func(cmd *cobra.Command, args []string) {
+			fs := lib.NewOsFs()
+
 			if len(args) == 0 {
 				color.Style{color.FgRed, color.OpBold}.Println("Please provide the path to the repository.")
 				fmt.Println()
@@ -30,10 +32,14 @@ var (
 				fmt.Println()
 				_ = cmd.Usage()
 			} else {
+				fs.SearchPath = args[0]
+				if !strings.HasSuffix(fs.SearchPath, "/") {
+					fs.SearchPath = fmt.Sprintf("%s/", fs.SearchPath)
+				}
 
-				path := args[0]
+				fs.Recursive = recursive
 
-				err := initScan(path)
+				err := initScan(fs)
 
 				if lib.IsErrorBool(err, "[ERROR]") {
 					if NoFail {
@@ -44,8 +50,8 @@ var (
 
 				s := spinner.New(spinner.CharSets[21], 100*time.Millisecond)
 				s.Start()
-				fmt.Printf("Scanning files in %s\n\n", path)
-				files, issuesDetected, err := fs.FindIssues(path, recursive, maxSeverity)
+				fmt.Printf("Scanning files in %s\n\n", fs.SearchPath)
+				files, issuesDetected, err := lib.FindIssues(fs, minSeverity)
 				s.Stop()
 				lib.IfErrorLog(err, "[ERROR]")
 				if issuesDetected {
@@ -76,19 +82,17 @@ var (
 func init() {
 	rootCmd.AddCommand(scanCmd)
 	scanCmd.PersistentFlags().BoolVarP(&recursive, "recursive", "r", false, "If true, lucha will recurse subdirectories")
-	scanCmd.PersistentFlags().IntVar(&maxSeverity, "max-severity", 0, "Only report on severities higher than this value")
+	scanCmd.PersistentFlags().IntVar(&minSeverity, "min-severity", 0, "Only report on severities higher than this value")
 }
 
-func initScan(path string) (err error) {
+func initScan(fs lib.FileSystem) (err error) {
 
-	fs = lib.NewOsFs()
-
-	err = fs.LoadIgnore(path)
+	err = lib.LoadIgnore(fs, fs.SearchPath)
 	if err != nil {
 		return
 	}
 
-	_, err = fs.LoadRules(version, LuchaRulesFile)
+	_, err = lib.LoadRules(fs, version, LuchaRulesFile)
 	if err != nil {
 		RulesFileNotFound()
 	}
@@ -110,5 +114,4 @@ func printSeverityIndicator(severity int) {
 	case 4:
 		color.Style{color.FgRed}.Print("■")
 	}
-
 }

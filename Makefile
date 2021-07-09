@@ -23,5 +23,8 @@ install: build ## Builds an executable local version of lucha and puts in in /us
 	sudo chmod +x lucha
 	sudo mv lucha /usr/local/bin
 
+run: build #Runs the default recursive lucha binary
+	./lucha scan --rules-file lucha.yaml --recursive .
+
 all: title build test ## Makes all targets
 

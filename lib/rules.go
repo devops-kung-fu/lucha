@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+
+	"gopkg.in/yaml.v2"
 )
 
 //LuchaDir returns the path where the default Lucha rules are stored
@@ -35,5 +37,40 @@ func Evaluate(line string, lineNumber int, maxSeverity int) (issues []Issue, err
 			}
 		}
 	}
+	return
+}
+
+//RefreshRules pulls down the latest rules from https://github.com/devops-kung-fu/lucha
+func RefreshRules(fs FileSystem, version string) (config Configuration, err error) {
+	luchaDir, _ := LuchaDir()
+
+	exists, _ := fs.Afero().DirExists(luchaDir)
+	if !exists {
+		err = fs.Afero().Mkdir(luchaDir, 0700)
+		if err != nil {
+			return
+		}
+	}
+	_, err = DownloadURL("https://raw.githubusercontent.com/devops-kung-fu/lucha/main/lucha.yaml", luchaDir)
+	if err != nil {
+		return
+	}
+	return
+}
+
+//LoadRules loads the lucha.yaml rules file into memory
+func LoadRules(fs FileSystem, version string, luchaFile string) (config Configuration, err error) {
+	yamlFile, err := fs.Afero().ReadFile(luchaFile)
+	if err != nil {
+		return
+	}
+	err = yaml.Unmarshal(yamlFile, &config)
+	if err != nil {
+		return
+	}
+
+	err = config.checkVersion(version)
+	Rules = config.Lucha.Rules
+
 	return
 }
