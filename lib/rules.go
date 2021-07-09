@@ -18,9 +18,10 @@ func LuchaDir() (path string, err error) {
 	return luchaDir, nil
 }
 
-func Evaluate(line string, lineNumber int, maxSeverity int) (issues []Issue, err error) {
+//Evaluate searches the given line and line number and returns a collection of issues if they are greater than the minimum desired severity level
+func Evaluate(line string, lineNumber int, minSeverity int) (issues []Issue, err error) {
 	for _, r := range Rules {
-		if r.Severity >= int64(maxSeverity) {
+		if r.Severity >= int64(minSeverity) {
 			var issue Issue
 			compiledRegex, err := regexp.Compile(r.Regex)
 			if err != nil {

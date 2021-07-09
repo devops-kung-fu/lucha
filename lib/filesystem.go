@@ -23,6 +23,7 @@ type FileSystem struct {
 	Recursive  bool
 }
 
+//AbsoluteSearchPath returns the the absolute path for the (possibly) relative search path
 func (fs FileSystem) AbsoluteSearchPath() string {
 	path, _ := filepath.Abs(fs.SearchPath)
 	return path
