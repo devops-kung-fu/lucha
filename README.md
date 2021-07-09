@@ -45,6 +45,8 @@ Lucha can run in any terminal and is language agnostic. The following screenshot
 * Artifactory Password
 * Vault Tokens
 
+AND MORE!
+
 ## Installation
 
 

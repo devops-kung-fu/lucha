@@ -62,8 +62,8 @@ func TestNewOsFs(t *testing.T) {
 	var i interface{} = NewOsFs()
 	var fs interface{} = afero.NewOsFs()
 
-	assert.IsType(t, f, i, "Not returning a FileSystem struct")
-	assert.IsType(t, fs, NewOsFs().fs, "fs should be an afero.OsFs")
+	assert.IsType(t, f, i)
+	assert.IsType(t, fs, NewOsFs().fs)
 }
 
 // func TestFileSystem_AppendIgnore(t *testing.T) {
@@ -91,7 +91,7 @@ func TestFileSystem_LoadIgnore(t *testing.T) {
 	createTestFileSystem(fs)
 	root := "."
 	err := LoadIgnore(fs, root)
-	assert.NoError(t, err, "Should be no error loading the .luchaignore file")
+	assert.NoError(t, err)
 }
 
 func TestFileSystem_LoadRules(t *testing.T) {
@@ -104,9 +104,9 @@ func TestFileSystem_LoadRules(t *testing.T) {
 	config, err := LoadRules(fs, version, "lucha.yaml")
 	versionErr := config.checkVersion(version)
 
-	assert.NoError(t, err, "There should be no error loading lucha.yaml")
-	assert.NoError(t, versionErr, "Version should have matched 1.0.0")
-	assert.Equal(t, 1, len(config.Lucha.Rules), "There should have only been one rule")
+	assert.NoError(t, err)
+	assert.NoError(t, versionErr)
+	assert.Equal(t, 1, len(config.Lucha.Rules))
 }
 
 // func TestFileSystem_BuildFileList(t *testing.T) {
