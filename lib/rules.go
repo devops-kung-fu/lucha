@@ -51,7 +51,7 @@ func RefreshRules(fs FileSystem, version string) (config Configuration, err erro
 			return
 		}
 	}
-	_, err = DownloadURL("https://raw.githubusercontent.com/devops-kung-fu/lucha/main/lucha.yaml", luchaDir)
+	_, err = DownloadFile(fs, luchaDir, "https://raw.githubusercontent.com/devops-kung-fu/lucha/main/lucha.yaml")
 	if err != nil {
 		return
 	}

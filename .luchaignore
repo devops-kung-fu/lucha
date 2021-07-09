@@ -1,6 +1,8 @@
 # Test Comment
+lib/test.txt
 lucha-sbom.json
 lucha.yaml
 lucha
 go.sum
+go.mod
 .git
