@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -13,13 +14,15 @@ import (
 
 var (
 	recursive   bool
-	maxSeverity int
+	minSeverity int
 	scanCmd     = &cobra.Command{
 		Use:     "scan",
 		Short:   "Scans all files in the recursively and scans them for sensitive data.",
 		Long:    "Scans all files in the recursively and scans them for sensitive data.",
 		Example: "lucha scan --recursive .",
 		Run: func(cmd *cobra.Command, args []string) {
+			fs := lib.NewOsFs()
+
 			if len(args) == 0 {
 				color.Style{color.FgRed, color.OpBold}.Println("Please provide the path to the repository.")
 				fmt.Println()
@@ -29,18 +32,26 @@ var (
 				fmt.Println()
 				_ = cmd.Usage()
 			} else {
-				path := args[0]
-				fs := lib.NewOsFs()
-				_, err := fs.LoadRules(version, RulesFile)
-				if err != nil {
-					RulesFileNotFound()
+				fs.SearchPath = args[0]
+				if !strings.HasSuffix(fs.SearchPath, "/") {
+					fs.SearchPath = fmt.Sprintf("%s/", fs.SearchPath)
 				}
-				fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
-				lib.IfErrorLog(err, "[ERROR]")
+
+				fs.Recursive = recursive
+
+				err := initScan(fs)
+
+				if lib.IsErrorBool(err, "[ERROR]") {
+					if NoFail {
+						os.Exit(0)
+					}
+					os.Exit(1)
+				}
+
 				s := spinner.New(spinner.CharSets[21], 100*time.Millisecond)
 				s.Start()
-				fmt.Printf("Scanning files in %s\n\n", path)
-				files, issuesDetected, err := fs.FindIssues(path, recursive, maxSeverity)
+				fmt.Printf("Scanning files in %s\n\n", fs.SearchPath)
+				files, issuesDetected, err := lib.FindIssues(fs, minSeverity)
 				s.Stop()
 				lib.IfErrorLog(err, "[ERROR]")
 				if issuesDetected {
@@ -50,7 +61,7 @@ var (
 						if len(f.Issues) > 0 {
 							fmt.Println(f.Path)
 							for _, i := range f.Issues {
-								fmt.Print("    ")
+								fmt.Print("  ")
 								printSeverityIndicator(int(i.Rule.Severity))
 								fmt.Printf(" %s:%v:1, %s\n", f.Path, i.LineNumber, i.Rule.Message)
 							}
@@ -71,7 +82,23 @@ var (
 func init() {
 	rootCmd.AddCommand(scanCmd)
 	scanCmd.PersistentFlags().BoolVarP(&recursive, "recursive", "r", false, "If true, lucha will recurse subdirectories")
-	scanCmd.PersistentFlags().IntVar(&maxSeverity, "max-severity", 0, "Only report on severities higher than this value")
+	scanCmd.PersistentFlags().IntVar(&minSeverity, "min-severity", 0, "Only report on severities higher than this value")
+}
+
+func initScan(fs lib.FileSystem) (err error) {
+
+	// err = lib.LoadIgnore(fs, fs.SearchPath)
+	// if err != nil {
+	// 	return
+	// }
+
+	_, err = lib.LoadRules(fs, version, LuchaRulesFile)
+	if err != nil {
+		RulesFileNotFound()
+	}
+	fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
+	lib.IfErrorLog(err, "[ERROR]")
+	return
 }
 
 func printSeverityIndicator(severity int) {
@@ -87,5 +114,4 @@ func printSeverityIndicator(severity int) {
 	case 4:
 		color.Style{color.FgRed}.Print("■")
 	}
-
 }

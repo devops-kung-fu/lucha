@@ -15,13 +15,11 @@ var (
 		Short: "Lists currently loadable rules.",
 		Long:  "Lists currently loadable rules",
 		Run: func(cmd *cobra.Command, args []string) {
-			fs := lib.NewOsFs()
-			config, err := fs.LoadRules(version, RulesFile)
+			config, err := lib.LoadRules(lib.NewOsFs(), version, LuchaRulesFile)
 			if err != nil {
 				RulesFileNotFound()
 			}
-			luchaRulesFile, _ := fs.LuchaRulesFile(RulesFile)
-			fmt.Printf("Loading %v rules from %s", len(lib.Rules), luchaRulesFile)
+			fmt.Printf("Loading %v rules from %s", len(lib.Rules), LuchaRulesFile)
 			fmt.Println()
 			if lib.IsErrorBool(err, "[ERROR]") {
 				return

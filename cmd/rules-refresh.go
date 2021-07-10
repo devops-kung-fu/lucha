@@ -15,7 +15,7 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("Refreshing rules from DKFM...")
 			fmt.Println()
-			_, err := lib.NewOsFs().RefreshRules(version)
+			_, err := lib.RefreshRules(lib.NewOsFs(), version)
 			if lib.IsErrorBool(err, "[ERROR]") {
 				return
 			}

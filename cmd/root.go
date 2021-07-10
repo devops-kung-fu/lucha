@@ -14,11 +14,12 @@ var (
 	version = "0.0.1"
 	verbose bool
 
-	//RulesFile the name and location of the lucha.yaml rules file
-	RulesFile string
+	//LuchaRulesFile the name and location of the lucha.yaml rules file
+	LuchaRulesFile string
 
 	//NoFail is true if the application should not return a non-zero exit code
-	NoFail  bool
+	NoFail bool
+
 	rootCmd = &cobra.Command{
 		Use:     "lucha",
 		Short:   `"Scans for sensitive data in source code`,
@@ -28,17 +29,6 @@ var (
 
 // Execute creates the command tree and handles any error condition returned
 func Execute() {
-	cobra.OnInitialize(func() {
-		// var fs = afero.NewOsFs()
-		// afs := &afero.Afero{Fs: fs}
-		// b, err := afs.DirExists(".git")
-		// lib.IfErrorLog(err, "[ERROR]")
-		// if !b {
-		// 	e := errors.New("*** must be run in a local .git repository")
-		// 	lib.IfErrorLog(e, "ERROR")
-		// 	os.Exit(1)
-		// }
-	})
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -54,7 +44,7 @@ func init() {
 	luchaDir, _ := lib.LuchaDir()
 	defaultLuchaFile := fmt.Sprintf("%s/lucha.yaml", luchaDir)
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Extended output as lucha executes.")
-	rootCmd.PersistentFlags().StringVar(&RulesFile, "rules-file", defaultLuchaFile, "Rules file to use when running lucha")
+	rootCmd.PersistentFlags().StringVar(&LuchaRulesFile, "rules-file", defaultLuchaFile, "Rules file to use when running lucha")
 	rootCmd.PersistentFlags().BoolVar(&NoFail, "no-fail", false, "Always exit with a non-zero exit code (success)")
 }
 
