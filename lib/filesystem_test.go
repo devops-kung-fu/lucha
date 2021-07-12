@@ -88,7 +88,7 @@ func TestFileSystem_AbsoluteSearchPath(t *testing.T) {
 		fs:         afero.NewMemMapFs(),
 		SearchPath: ".",
 	}
-	assert.Contains(t, fs.AbsoluteSearchPath(), "/code/lucha/lib")
+	assert.Contains(t, fs.AbsoluteSearchPath(), "/lucha/lib")
 }
 
 func Test_shouldIgnoreDir(t *testing.T) {
