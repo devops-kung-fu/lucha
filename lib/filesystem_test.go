@@ -82,3 +82,30 @@ func Test_NewOsFs(t *testing.T) {
 // 	_, err = f.BuildFileList("...", true)
 // 	assert.Error(t, err, "There should be an error because the folder ... shouldn't exist")
 // }
+
+func TestFileSystem_AbsoluteSearchPath(t *testing.T) {
+	fs := FileSystem{
+		fs:         afero.NewMemMapFs(),
+		SearchPath: ".",
+	}
+	assert.Contains(t, fs.AbsoluteSearchPath(), "/lucha/lib")
+}
+
+func Test_shouldIgnoreDir(t *testing.T) {
+	fs := FileSystem{
+		fs:         afero.NewMemMapFs(),
+		SearchPath: ".",
+	}
+	fs.Afero().Mkdir(".git", 0644)
+	fi, _ := fs.Afero().ReadDir(fs.SearchPath)
+	assert.Len(t, fi, 1)
+
+	dir := fi[0]
+
+	shouldIgnore := shouldIgnoreDir(fs, dir, "")
+	assert.True(t, shouldIgnore)
+
+	fs.IncludeGit = true
+	shouldIgnore = shouldIgnoreDir(fs, dir, "")
+	assert.False(t, shouldIgnore)
+}

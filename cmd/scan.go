@@ -13,6 +13,7 @@ import (
 )
 
 var (
+	includeGit  bool
 	recursive   bool
 	minSeverity int
 	scanCmd     = &cobra.Command{
@@ -38,6 +39,7 @@ var (
 				}
 
 				fs.Recursive = recursive
+				fs.IncludeGit = includeGit
 
 				err := initScan(fs)
 
@@ -83,6 +85,7 @@ func init() {
 	rootCmd.AddCommand(scanCmd)
 	scanCmd.PersistentFlags().BoolVarP(&recursive, "recursive", "r", false, "If true, lucha will recurse subdirectories")
 	scanCmd.PersistentFlags().IntVar(&minSeverity, "min-severity", 0, "Only report on severities higher than this value")
+	scanCmd.PersistentFlags().BoolVarP(&includeGit, "git", "g", false, "If true, lucha not ignore the .git directory")
 }
 
 func initScan(fs lib.FileSystem) (err error) {

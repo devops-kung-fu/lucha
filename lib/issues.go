@@ -48,6 +48,7 @@ func FindIssues(fs FileSystem, minSeverity int) (violations []ScanFile, violatio
 			}
 		}
 
+		// this could go into a verbose or trace flag
 		// else {
 		// 	fmt.Println("Ignoring ", file.Name())
 		// }
