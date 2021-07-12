@@ -27,7 +27,6 @@ func createTestFileSystem(fs FileSystem) {
 	defer file.Close()
 	file.WriteString(fmt.Sprintf("%s\n", "test"))
 
-	//AppendIgnore(fs, "test.txt")
 	config := Configuration{
 		Version: "1.0.0",
 		Lucha: Lucha{
@@ -48,7 +47,6 @@ func createTestFileSystem(fs FileSystem) {
 	lf, _ := yaml.Marshal(config)
 
 	fs.Afero().WriteFile("lucha.yaml", lf, 0644)
-
 }
 
 func Test_NewOsFs(t *testing.T) {
@@ -61,15 +59,26 @@ func Test_NewOsFs(t *testing.T) {
 	assert.IsType(t, fs, NewOsFs().fs)
 }
 
-// func TestFileSystem_BuildFileList(t *testing.T) {
-// 	createTestFileSystem()
+func TestFileSystem_BuildFileList(t *testing.T) {
+	fs := FileSystem{
+		fs:         afero.NewMemMapFs(),
+		SearchPath: ".",
+	}
 
-// 	root := "."
+	createTestFileSystem(fs)
+	fs.Afero().WriteFile(".luchaignore", []byte("test.txt"), 0666)
 
-// 	scanFiles, err := f.BuildFileList(root, false)
+	//test if no ignore as well
 
-// 	assert.NoError(t, err, "There should be no error")
-// 	assert.Equal(t, 3, len(scanFiles), "Expecting .luchaignore, lucha.yaml, and test.txt")
+	b, err := fs.Afero().Exists("lucha.yaml")
+	assert.True(t, b)
+	assert.NoError(t, err)
+
+	// scanFiles, err := BuildFileList(fs)
+
+	// assert.NoError(t, err, "There should be no error")
+	// assert.Equal(t, 3, len(scanFiles), "Expecting .luchaignore, lucha.yaml, and test.txt")
+}
 
 // 	scanFiles, err = f.BuildFileList(".", true)
 

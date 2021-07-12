@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -26,7 +27,10 @@ type FileSystem struct {
 
 //AbsoluteSearchPath returns the the absolute path for the (possibly) relative search path
 func (fs FileSystem) AbsoluteSearchPath() string {
-	path, _ := filepath.Abs(fs.SearchPath)
+	path, err := filepath.Abs(fs.SearchPath)
+	if err != nil {
+		fmt.Println(err)
+	}
 	return path
 }
 
@@ -90,12 +94,9 @@ func shouldIgnoreDir(fs FileSystem, f os.FileInfo, path string) bool {
 
 //BuildFileList gathers all of the files from the searchpath down the folder tree
 func BuildFileList(fs FileSystem) (fileList []string, err error) {
-	path, err := filepath.Abs(fs.SearchPath)
-	if err != nil {
-		return
-	}
+
 	ignores, _ := LoadIgnore(fs)
-	err = fs.Afero().Walk(path, func(path string, f os.FileInfo, err error) error {
+	err = fs.Afero().Walk(fs.AbsoluteSearchPath(), func(path string, f os.FileInfo, err error) error {
 		if shouldIgnoreDir(fs, f, path) {
 			return filepath.SkipDir
 		}
