@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	version = "0.0.1"
+	version = "0.0.3"
 	verbose bool
 
 	//LuchaRulesFile the name and location of the lucha.yaml rules file
