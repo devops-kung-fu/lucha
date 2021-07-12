@@ -21,6 +21,7 @@ type FileSystem struct {
 	fs         afero.Fs
 	SearchPath string
 	Recursive  bool
+	IncludeGit bool
 }
 
 //AbsoluteSearchPath returns the the absolute path for the (possibly) relative search path
@@ -107,6 +108,16 @@ func matchIgnore(s []string, str string) (matches bool) {
 	return
 }
 
+func shouldIgnoreDir(fs FileSystem, f os.FileInfo, path string) bool {
+	if (f.IsDir() && f.Name() == ".git") && !fs.IncludeGit {
+		return true
+	}
+	if (f.IsDir() && !fs.Recursive) && fs.AbsoluteSearchPath() != path {
+		return true
+	}
+	return false
+}
+
 //BuildFileList gathers all of the files from the searchpath down the folder tree
 func BuildFileList(fs FileSystem) (fileList []string, err error) {
 	path, err := filepath.Abs(fs.SearchPath)
@@ -115,6 +126,9 @@ func BuildFileList(fs FileSystem) (fileList []string, err error) {
 	}
 	ignores, _ := LoadIgnore(fs)
 	err = fs.Afero().Walk(path, func(path string, f os.FileInfo, err error) error {
+		if shouldIgnoreDir(fs, f, path) {
+			return filepath.SkipDir
+		}
 		if shouldIgnore(path, ignores) {
 			fileList = append(fileList, path)
 		}
