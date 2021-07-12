@@ -82,3 +82,11 @@ func Test_NewOsFs(t *testing.T) {
 // 	_, err = f.BuildFileList("...", true)
 // 	assert.Error(t, err, "There should be an error because the folder ... shouldn't exist")
 // }
+
+func TestFileSystem_AbsoluteSearchPath(t *testing.T) {
+	fs := FileSystem{
+		fs:         afero.NewMemMapFs(),
+		SearchPath: ".",
+	}
+	assert.Contains(t, fs.AbsoluteSearchPath(), "/code/lucha/lib")
+}

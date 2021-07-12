@@ -55,36 +55,6 @@ func isUTF8(fs FileSystem, file afero.File) bool {
 	return true
 }
 
-// func canIgnore(file os.FileInfo, originalRoot string, path string, recursive bool) bool {
-// 	if !recursive && strings.Count(path, "/") > 1 {
-// 		return true
-// 	}
-// 	for _, ignore := range Ignores {
-// 		name := file.Name()
-// 		if ignore == name {
-// 			return true
-// 		}
-// 		if strings.HasPrefix(path, ignore) {
-// 			return true
-// 		}
-// 		if path != "." {
-// 			pathedIgnore := fmt.Sprintf("%s%s", originalRoot, ignore)
-// 			if strings.HasPrefix(path, pathedIgnore) {
-// 				return true
-// 			}
-// 			if strings.HasSuffix(path, ignore) {
-// 				return true
-// 			}
-// 		}
-
-// 	}
-// 	return false
-// }
-
-// func filterFiles(fs FileSystem, fileList []string, ignoreList []string) (filteredList []string) {
-
-// }
-
 func shouldIgnore(file string, ignoreList []string) (ignore bool) {
 	var absIgnore []string
 
