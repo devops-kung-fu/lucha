@@ -109,8 +109,8 @@ func matchIgnore(s []string, str string) (matches bool) {
 }
 
 func shouldIgnoreDir(fs FileSystem, f os.FileInfo, path string) bool {
-	if (f.IsDir() && f.Name() == ".git") && !fs.IncludeGit {
-		return true
+	if f.IsDir() && f.Name() == ".git" {
+		return !fs.IncludeGit
 	}
 	if (f.IsDir() && !fs.Recursive) && fs.AbsoluteSearchPath() != path {
 		return true
