@@ -55,8 +55,8 @@ To install ```lucha```,  [download the latest release](https://github.com/devops
 Linux Example:
 
 ```bash
-sudo chmod +x lucha-0.0.1-linux-amd64
-sudo mv lucha-0.0.1-linux-amd64 /usr/local/bin/lucha
+sudo chmod +x lucha-0.0.3-linux-amd64
+sudo mv lucha-0.0.3-linux-amd64 /usr/local/bin/lucha
 ```
 
 ## Running Lucha

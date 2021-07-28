@@ -118,3 +118,16 @@ func Test_shouldIgnoreDir(t *testing.T) {
 	shouldIgnore = shouldIgnoreDir(fs, dir, "")
 	assert.False(t, shouldIgnore)
 }
+
+func Test_isUTF8(t *testing.T) {
+	fs := FileSystem{
+		fs:         afero.NewMemMapFs(),
+		SearchPath: ".",
+	}
+
+	fs.Afero().WriteFile("test.txt", []byte("test string"), 0666)
+	fi, _ := fs.fs.OpenFile("test.txt",
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	b := isUTF8(fs, fi)
+	assert.True(t, b)
+}
