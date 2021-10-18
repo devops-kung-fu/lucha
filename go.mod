@@ -6,7 +6,7 @@ require (
 	github.com/briandowns/spinner v1.16.0
 	github.com/dustin/go-humanize v1.0.0
 	github.com/fatih/color v1.12.0 // indirect
-	github.com/gookit/color v1.4.2
+	github.com/gookit/color v1.5.0
 	github.com/jarcoal/httpmock v1.0.8
 	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/spf13/afero v1.6.0
