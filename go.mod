@@ -3,7 +3,7 @@ module github.com/devops-kung-fu/lucha
 go 1.16
 
 require (
-	github.com/briandowns/spinner v1.16.0
+	github.com/briandowns/spinner v1.17.0
 	github.com/dustin/go-humanize v1.0.0
 	github.com/fatih/color v1.12.0 // indirect
 	github.com/gookit/color v1.4.2
