@@ -5,8 +5,10 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/devops-kung-fu/lucha/lib"
 	"github.com/spf13/cobra"
+
+	"github.com/devops-kung-fu/lucha/lib"
+	"github.com/devops-kung-fu/lucha/util"
 )
 
 var (
@@ -21,10 +23,10 @@ var (
 			}
 			fmt.Printf("Loading %v rules from %s", len(lib.Rules), LuchaRulesFile)
 			fmt.Println()
-			if lib.IsErrorBool(err, "[ERROR]") {
+			if util.IsErrorBool(err, "[ERROR]") {
 				return
 			}
-			if lib.IsErrorBool(displayRules(), "[ERROR]") {
+			if util.IsErrorBool(displayRules(), "[ERROR]") {
 				return
 			}
 			fmt.Println()

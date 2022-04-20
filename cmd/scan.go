@@ -7,9 +7,11 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
-	"github.com/devops-kung-fu/lucha/lib"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+
+	"github.com/devops-kung-fu/lucha/lib"
+	"github.com/devops-kung-fu/lucha/util"
 )
 
 var (
@@ -43,10 +45,7 @@ var (
 
 				err := initScan(fs)
 
-				if lib.IsErrorBool(err, "[ERROR]") {
-					if NoFail {
-						os.Exit(0)
-					}
+				if util.IsErrorBool(err, "[ERROR]") {
 					os.Exit(1)
 				}
 
@@ -55,7 +54,7 @@ var (
 				fmt.Printf("Scanning files in %s\n\n", fs.SearchPath)
 				files, issuesDetected, err := lib.FindIssues(fs, minSeverity)
 				s.Stop()
-				lib.IfErrorLog(err, "[ERROR]")
+				util.IfErrorLog(err, "[ERROR]")
 				if issuesDetected {
 					color.Style{color.FgRed.Darken()}.Println("ISSUES DETECTED!")
 					fmt.Println()
@@ -68,9 +67,6 @@ var (
 								fmt.Printf(" %s:%v:1, %s\n", f.Path, i.LineNumber, i.Rule.Message)
 							}
 						}
-					}
-					if NoFail {
-						os.Exit(0)
 					}
 					os.Exit(1)
 				} else {
@@ -100,7 +96,7 @@ func initScan(fs lib.FileSystem) (err error) {
 		RulesFileNotFound()
 	}
 	fmt.Printf("%v Rules Loaded\n\n", len(lib.Rules))
-	lib.IfErrorLog(err, "[ERROR]")
+	util.IfErrorLog(err, "[ERROR]")
 	return
 }
 

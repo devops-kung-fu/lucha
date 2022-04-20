@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/devops-kung-fu/lucha/lib"
 	"github.com/spf13/cobra"
+
+	"github.com/devops-kung-fu/lucha/lib"
+	"github.com/devops-kung-fu/lucha/util"
 )
 
 var (
@@ -16,7 +18,7 @@ var (
 			fmt.Println("Refreshing rules from DKFM...")
 			fmt.Println()
 			_, err := lib.RefreshRules(lib.NewOsFs(), version)
-			if lib.IsErrorBool(err, "[ERROR]") {
+			if util.IsErrorBool(err, "[ERROR]") {
 				return
 			}
 		},

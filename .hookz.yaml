@@ -37,12 +37,9 @@
           args: ["tool", "cover", "-func=coverage.out"]
         - name: "cyclone-dx: Generate a Software Bill of Materials (SBoM)"
           exec: cyclonedx-gomod
-          args: ["-json", "-output", "lucha-sbom.json", "-std", "-licenses"]
-        - name: "lucha: scan source code for sensitive data"
-          exec: lucha
-          args: ["scan", "--recursive", "--no-fail", "."]
-        - name: "hinge: update dependabot.yaml if needed"
-          url: https://github.com/devops-kung-fu/hinge/releases/download/v0.1.0/hinge-0.1.0-%%PLATFORM%%-amd64
+          args: ["app", "-json", "-output", "lucha-sbom.json"]
+        - name: Hinge
+          url: https://github.com/devops-kung-fu/hinge/releases/download/v0.1.1/hinge-0.1.1-%%PLATFORM%%-amd64
           args: ["."]
         - name: "git: Add all changed files during the pre-commit stage"
           exec: git

@@ -97,9 +97,6 @@ The recommended way to run Lucha is to configure [Hookz](https://github.com/devo
           exec: lucha
           args: ["scan", "--recursive", "."]
 ```
-### No Fail
-
-It's strongly recommended that you **never** use this flag, but it may come in handy in your CI/CD environment. **USE AT YOUR OWN DISCRETION**
 
 ## Results
 
@@ -131,9 +128,10 @@ Maybe he just likes wrestling. Ping him on [Twitter](https://twitter.com/djschle
 
 ## Software Bill of Materials
 
-```lucha``` uses [Hookz](https://github.com/devops-kung-fu/hookz) and CycloneDX to generate a Software Bill of Materials in CycloneDX format every time a developer commits code to this repository. More information for CycloneDX is available [here](https://cyclonedx.org)
+```lucha``` uses the CycloneDX to generate a Software Bill of Materials in CycloneDX format (v1.4) every time a developer commits code to this repository. More information for CycloneDX is available [here](https://cyclonedx.org)
 
-The current SBoM for ```lucha``` is available [here](lucha-sbom.json).
+The SBoM for the last commit of ```lucha``` is available [here](lucha-sbom.json).
+
 
 ## Credits
 
