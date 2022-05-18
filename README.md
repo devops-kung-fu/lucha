@@ -113,12 +113,44 @@ There are 5 status colors and severities that ```lucha``` may display. Their mea
 | Red     | 4 - Critical      |
 
 
-
-
 ## Ignoring Files
 You may want to ignore files that are show false positives. For example in Go, ```lucha``` will show that there may be AWS Keys in the ```go.mod``` file. To ignore any file you can use ```lucha ignore [filename]``` which will create a file named ```.luchaignore```, or create a ```.luchaignore``` file in the root of your repository with the names or paths to ignore. 
 
 The ```.luchaignore``` file can be and should be checked in with your code.
+
+## Development
+
+## Overview
+
+In order to use contribute and participate in the development of Lucha you'll need to have an updated Go environment. Before you start, please view the [Contributing](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) files in this repository.
+
+## Prerequisites
+
+This project makes use of [DKFM](https://github.com/devops-kung-fu) tools such as [Hookz](https://github.com/devops-kung-fu/hookz) and [Hinge](https://github.com/devops-kung-fu/hinge), as well as some other open source tooling. Install these tools with the following commands:
+
+``` bash
+
+go install github.com/devops-kung-fu/hookz@latest
+go install github.com/devops-kung-fu/lucha@latest
+go install github.com/devops-kung-fu/hinge@latest
+go install github.com/kisielk/errcheck@latest
+go install golang.org/x/lint/golint@latest
+go install github.com/fzipp/gocyclo@latest
+
+```
+
+## Initializing Hookz
+
+[Hookz](https://github.com/devops-kung-fu/hookz) creates git hooks to perform tasks before source code hits a git repository. Think about this as moving things "really far left" in the development process. You'll notice a [.hooz.yaml](.hookz.yaml) file in the repository. This directs [Hookz](https://github.com/devops-kung-fu/hookz) to create pre-commit script that run when you commit code.
+
+To initialize [Hookz](https://github.com/devops-kung-fu/hookz) run the following command:
+
+``` bash
+
+hookz init --debug --verbose
+
+```
+
 
 ## What's with the name Lucha?
 
@@ -131,7 +163,6 @@ Maybe he just likes wrestling. Ping him on [Twitter](https://twitter.com/djschle
 ```lucha``` uses the CycloneDX to generate a Software Bill of Materials in CycloneDX format (v1.4) every time a developer commits code to this repository. More information for CycloneDX is available [here](https://cyclonedx.org)
 
 The SBoM for the last commit of ```lucha``` is available [here](lucha-sbom.json).
-
 
 ## Credits
 
